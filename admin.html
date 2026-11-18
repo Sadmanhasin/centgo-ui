@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0c">
 <title>CentGo Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -446,7 +447,7 @@ function drawChart(cur, prev){
   $('#sumCur').textContent = show(sum(cv)); $('#sumPrev').textContent = show(sum(pv));
 
   const tip = $('#tip'), hl = $('#hoverLine'), hd = $('#hoverDot');
-  $('#hit').onmousemove = e => {
+  $('#hit').onpointermove = $('#hit').onpointerdown = e => {
     const rect = svg.getBoundingClientRect(), mx = (e.clientX-rect.left)/rect.width*W;
     const i = Math.max(0, Math.min(cv.length-1, Math.round((mx-pad.l)/iw*(cv.length-1))));
     const xx = x(i); hl.setAttribute('x1',xx); hl.setAttribute('x2',xx); hl.setAttribute('visibility','visible');
@@ -454,7 +455,7 @@ function drawChart(cur, prev){
     tip.innerHTML = `<span>${labels[i]}</span><br><b>${cv[i]==null?'—':show(cv[i])}</b> <span>vs ${show(pv[i])}</span>`;
     tip.style.left = (xx/W*rect.width + 18)+'px'; tip.style.top = (y(Math.max(cv[i]??0,pv[i]))/H*rect.height + 12)+'px'; tip.style.opacity = 1;
   };
-  $('#hit').onmouseleave = () => {tip.style.opacity=0;hl.setAttribute('visibility','hidden');hd.setAttribute('visibility','hidden')};
+  $('#hit').onpointerleave = () => {tip.style.opacity=0;hl.setAttribute('visibility','hidden');hd.setAttribute('visibility','hidden')};
 }
 function niceMax(v){const p=Math.pow(10,Math.floor(Math.log10(v)));const n=v/p;return (n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*p}
 
@@ -555,7 +556,7 @@ function drawTrends(){
   svg.innerHTML = g;
 
   const tip = $('#trendTip'), hl = $('#tHl');
-  $('#tHit').onmousemove = e => {
+  $('#tHit').onpointermove = $('#tHit').onpointerdown = e => {
     const rect = svg.getBoundingClientRect(), i = Math.max(0, Math.min(n-1, Math.floor((e.clientX-rect.left)/rect.width*n)));
     hl.setAttribute('x', i*colW); hl.setAttribute('visibility','visible');
     const p = data[i];
@@ -563,7 +564,7 @@ function drawTrends(){
     const cx = (i+0.5)*colW/W*rect.width;
     tip.style.left = Math.min(Math.max(cx+18, 110), rect.width-90)+'px'; tip.style.top = (e.clientY-rect.top+12)+'px'; tip.style.opacity = 1;
   };
-  $('#tHit').onmouseleave = () => { tip.style.opacity = 0; hl.setAttribute('visibility','hidden'); };
+  $('#tHit').onpointerleave = () => { tip.style.opacity = 0; hl.setAttribute('visibility','hidden'); };
 }
 
 /* ============ traffic analytics ============ */
@@ -753,10 +754,10 @@ function pagerHtml(page, pages){
 function renderAffiliates(){
   const s = state.aff;
   $('#page').innerHTML = `
-    <div class="page-head">
+    <div class="page-head ph-inline">
       <div><h1>Affiliates</h1></div>
       <div class="head-actions">
-        <button class="btn" id="affExport">${icon('download')}Export</button>
+        <button class="btn" id="affExport" title="Export CSV" aria-label="Export CSV">${icon('download')}Export</button>
         <button class="btn primary" id="affAdd">${icon('plus')}Add affiliate</button>
       </div>
     </div>
@@ -1267,7 +1268,7 @@ function trendTag(t){ const T = TRENDS[t]; return T ? `<span class="ttag t-${t}"
 function renderCampaigns(){
   const s = state.camp, all = CAMP_DATA, pct = all.filter(c=>c.commType==='percent');
   $('#page').innerHTML = `
-    <div class="page-head">
+    <div class="page-head ph-inline">
       <div><h1>Campaigns</h1></div>
       <div class="head-actions"><a class="btn primary" href="#campaigns/new">${icon('plus')}Add campaign</a></div>
     </div>
@@ -1599,9 +1600,9 @@ function repFilter(rows, key){
 
 function renderClicksPage(){
   $('#page').innerHTML = `
-    <div class="page-head">
+    <div class="page-head ph-inline">
       <div><h1>Clicks</h1></div>
-      <div class="head-actions"><button class="btn" id="repExport">${icon('download')}Export</button></div>
+      <div class="head-actions"><button class="btn" id="repExport" title="Export CSV" aria-label="Export CSV">${icon('download')}Export</button></div>
     </div>
     <div class="card">${repToolbar('clicks')}<div id="repTable"></div></div>`;
   const draw = () => {
@@ -1628,10 +1629,10 @@ function renderClicksPage(){
 
 function renderConversionsPage(){
   $('#page').innerHTML = `
-    <div class="page-head">
+    <div class="page-head ph-inline">
       <div><h1>Conversions</h1></div>
       <div class="head-actions">
-        <button class="btn" id="repExport">${icon('download')}Export</button>
+        <button class="btn" id="repExport" title="Export CSV" aria-label="Export CSV">${icon('download')}Export</button>
         <button class="btn primary" id="convAdd">${icon('plus')}Add conversion</button>
       </div>
     </div>
@@ -1722,7 +1723,7 @@ state.adm = {q:'', role:'all'};
 function renderAdminsPage(){
   const s = state.adm;
   $('#page').innerHTML = `
-    <div class="page-head">
+    <div class="page-head ph-inline">
       <div><h1>Admins</h1></div>
       <div class="head-actions"><button class="btn primary" id="admAdd">${icon('plus')}Add admin</button></div>
     </div>
@@ -1789,6 +1790,29 @@ function openAdminForm(a){
   const help = () => $('#roleHelp').textContent = r.value==='admin' ? 'Full access to every page and setting.' : 'Can manage the affiliates assigned to them.';
   r.onchange = help; help();
 }
+
+/* ============ mobile: tables render as cards (see "Mobile standard" in styles.css) ============ */
+// each cell gets its column name as data-label; one meaningful column becomes the card title
+const TITLE_COLS = ['Affiliate','Name','Campaign','Coupon / link','Coupon code','Offer','Link','Country','Device','Date','Duration','Paid on'];
+function labelTables(root){
+  root.querySelectorAll('table').forEach(t => {
+    const hs = [...t.querySelectorAll('thead th')].map(th => th.textContent.trim());
+    if(!hs.length) return;
+    const ti = TITLE_COLS.map(c => hs.indexOf(c)).find(i => i >= 0);
+    t.querySelectorAll('tbody tr').forEach(tr => {
+      if(tr.dataset.lab) return; tr.dataset.lab = '1';
+      [...tr.children].forEach((td, i) => {
+        if(td.colSpan > 1) return;
+        td.setAttribute('data-label', hs[i] || '');
+        // one wrapper per cell so multi-part values (code + domain, Skype + Telegram) stack on the right
+        if(!td.firstElementChild || !td.firstElementChild.classList.contains('cv') || td.childNodes.length > 1){ const w = document.createElement('div'); w.className = 'cv'; while(td.firstChild) w.appendChild(td.firstChild); td.appendChild(w); }
+        if(hs[i]==='No' || hs[i]==='#') td.classList.add('m-hide');
+        if(i===ti) td.classList.add('m-title');
+      });
+    });
+  });
+}
+new MutationObserver(() => labelTables(document.getElementById('page'))).observe(document.getElementById('page'), {childList:true, subtree:true});
 
 /* ============ routing ============ */
 // #page ·  #affiliates/<id>  ·  #affiliates/<id>/<tab>  ·  #campaigns/new  ·  #campaigns/<id>

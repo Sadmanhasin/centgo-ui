@@ -458,3 +458,173 @@ tbody tr.static{cursor:default}
 /* ---------- brand logo ---------- */
 .brand-logo{width:36px;height:36px;border-radius:9px;display:block;flex-shrink:0}
 .start-logo{width:64px;height:64px;border-radius:14px;display:block;margin:0 auto 14px}
+
+/* =====================================================================
+   Mobile standard (shared by start, admin and affiliate pages)
+   - no sideways scrolling, 40px+ tap targets, 16px form text (no iOS zoom)
+   - tables become stacked cards, dialogs become bottom sheets
+   ===================================================================== */
+body{overflow-x:clip}
+.main{min-width:0}
+/* grid children must be allowed to shrink, or wide tables stretch the page */
+.grid-2>*,.grid-2b>*,.geo>*,.split>*,.kpis>*,.summary>*,.periods>*,.stats3>*,.cgrid>*,.mgrid>*,.info-grid>*,.prof-grid>*,.traffic>*,.notice>*{min-width:0}
+#chart,#trendChart{touch-action:pan-y}
+.table-wrap{-webkit-overflow-scrolling:touch}
+
+@media (max-width:900px){
+  .sidebar{width:min(300px,86vw);box-shadow:0 0 40px rgba(0,0,0,.18)}
+  .nav-item{padding:11px 12px}
+  .icon-btn{width:40px;height:40px}
+}
+
+@media (max-width:640px){
+  /* type + spacing */
+  .page{padding:14px 14px 96px}
+  .page-head{margin-bottom:14px;align-items:stretch}
+  .page-head h1{font-size:20px}
+  .page-head>div:first-child{min-width:0}
+  .head-actions{width:100%}
+  .head-actions>.btn,.head-actions>a.btn{flex:1 1 auto;justify-content:center}
+  .head-actions .seg{width:100%;overflow-x:auto;scrollbar-width:none}
+  .head-actions .seg button{flex:1 0 auto;white-space:nowrap}
+
+  /* top bar: keep only the current page name */
+  .topbar{height:56px;padding:0 10px 0 6px;gap:6px}
+  .crumbs{min-width:0;flex:1}
+  .crumbs>:not(b){display:none}
+  .crumbs b{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  /* touch targets */
+  .btn{min-height:42px;padding:0 14px}
+  .btn.sm{min-height:38px}
+  .rbtn,.row-acts button,.row-acts .rbtn{width:38px!important;height:38px!important}
+  .pager button{min-width:38px;height:38px}
+  .link-btn{min-height:36px;display:inline-flex;align-items:center}
+  .seg button{padding:9px 12px}
+  .tabs button,.utabs button{padding-top:12px;padding-bottom:12px}
+  .stepper button{width:38px;height:38px}
+  .stepper{height:40px}
+
+  /* forms: 16px text stops iOS from zooming in on focus */
+  input,select,textarea{font-size:16px!important}
+  .field,select.sel,.form input,.form select{min-height:44px;height:auto}
+  .field input{height:42px}
+  select.sel{height:44px}
+
+  /* toolbars stack into full-width rows */
+  .toolbar{gap:8px;padding:12px 14px}
+  .toolbar>*{flex:1 1 100%;max-width:none!important}
+  .toolbar .tb-summary{margin-left:0!important;order:10}
+  .toolbar>.link-btn{flex:0 0 auto;margin-left:auto!important}
+  .rwrap{display:flex;gap:8px;width:100%}
+  .rwrap>*{flex:1 1 auto}
+  .viewby{width:100%;display:flex}
+  .viewby select{flex:1}
+
+  /* tables → stacked cards (labels come from the column headers, set by JS) */
+  .table-wrap{overflow:visible}
+  .table-wrap table,.table-wrap tbody,.table-wrap tr,.table-wrap td{display:block;width:100%}
+  .table-wrap thead{display:none}
+  .table-wrap tbody tr{padding:12px 14px;border-bottom:1px solid var(--border)}
+  .table-wrap tbody tr:last-child{border-bottom:0}
+  .table-wrap td{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:4px 0!important;border:0!important;text-align:right!important;white-space:normal!important;min-height:30px;background:none!important}
+  .table-wrap td::before{content:attr(data-label);font-size:12.5px;color:var(--text-3);font-weight:500;text-align:left;flex-shrink:0}
+  .table-wrap td[data-label=""]::before,.table-wrap td.m-title::before{content:none}
+  .table-wrap td[data-label=""]{justify-content:flex-end;padding-top:8px!important}
+  .table-wrap td.m-title{justify-content:flex-start;text-align:left!important;font-weight:600;padding-bottom:8px!important}
+  .table-wrap td.m-hide{display:none}
+  .table-wrap td>*{min-width:0}
+  .table-wrap .who-cell{text-align:left}
+  .table-wrap .mini{align-items:flex-end}
+  .table-wrap .empty-row td{display:block;text-align:center!important}
+  .table-wrap .empty-row td::before{content:none}
+  .card-foot{flex-direction:column;align-items:stretch;gap:10px;text-align:center}
+  .card-foot .pager{justify-content:center}
+
+  /* dialogs become bottom sheets */
+  .modal-bg{align-items:flex-end;padding:0}
+  .modal{max-width:none!important;width:100%;border-radius:18px 18px 0 0;max-height:92vh;padding:20px 16px calc(16px + env(safe-area-inset-bottom))}
+  .modal .acts{position:sticky;bottom:calc(-16px - env(safe-area-inset-bottom));background:#fff;padding:12px 0 calc(4px + env(safe-area-inset-bottom));margin-top:8px}
+  .modal .acts .btn{flex:1;justify-content:center}
+  .form{grid-template-columns:1fr!important}
+
+  /* date-range picker becomes a bottom sheet too */
+  .rpop{position:fixed!important;left:0!important;right:0;top:auto!important;bottom:0;width:auto;max-width:none;border-radius:18px 18px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom));box-shadow:0 -10px 40px rgba(0,0,0,.18)}
+  .rpop-a .btn{flex:1;justify-content:center}
+
+  /* toasts sit above floating buttons and the home indicator */
+  .toast{bottom:calc(84px + env(safe-area-inset-bottom));max-width:calc(100vw - 32px);text-align:center}
+
+  /* misc components */
+  .card-head{padding:14px 14px 0}
+  .card-head .btn{margin-left:auto}
+  .stats{grid-template-columns:1fr 1fr!important}
+  .stat{border-left:0!important;border-top:1px solid var(--border)}
+  .stat:nth-child(-n+2){border-top:0}
+  .stat:nth-child(even){border-left:1px solid var(--border)!important}
+  .cgrid{grid-template-columns:1fr}
+  .empty{padding:40px 16px}
+  .menu{position:fixed;top:60px;left:12px;right:12px;width:auto}
+}
+
+@media (max-width:380px){
+  .page{padding:12px 12px 96px}
+  .stats{grid-template-columns:1fr!important}
+  .stat{border-left:0!important;border-top:1px solid var(--border)!important}
+  .stat:first-child{border-top:0!important}
+}
+@media (max-width:640px){
+  /* card order: title first, action buttons last */
+  .table-wrap tbody tr:not(.empty-row){display:flex!important;flex-direction:column}
+  .table-wrap td.m-title{order:-1}
+  .table-wrap td[data-label=""]{order:10}
+}
+@media (max-width:640px){
+  .tabs button{min-height:38px}
+  .chip{min-height:38px}
+  .metric-picks{gap:6px}
+}
+@media (max-width:640px){
+  /* segmented tabs inside card headers: full width, scroll if they still don't fit */
+  .card-head .seg,.card-head .head-actions{max-width:100%}
+  .card-head .seg{width:100%;overflow-x:auto;scrollbar-width:none}
+  .card-head .seg button{flex:1 0 auto}
+  .seg.sm button{padding:9px 12px}
+  /* today-vs-yesterday comparison: let columns size to their content */
+  .cmp-head,.cmp-row{grid-template-columns:minmax(0,1fr) auto auto auto;gap:10px}
+  .cmp .delta{font-size:11px;padding:2px 5px}
+}
+@media (max-width:640px){
+  .table-wrap td .cv{text-align:right;min-width:0;overflow-wrap:anywhere}
+  .table-wrap td .cv small{display:block}
+  .table-wrap td.m-title .cv{text-align:left}
+  .table-wrap td[data-label=""] .cv{display:flex;justify-content:flex-end;gap:4px;width:100%}
+  .table-wrap td .cv .contact,.table-wrap td.contact .cv{line-height:1.6}
+  .table-wrap td.contact .cv span{width:auto;margin-right:6px}
+}
+@media (max-width:640px){
+  .head-actions{flex-wrap:wrap}
+  .head-actions .seg{flex:1 1 100%;order:-1}
+}
+@media (max-width:640px){
+  /* header buttons sit top-right, next to the page title */
+  .page-head.ph-inline{flex-wrap:nowrap;align-items:flex-start;gap:10px}
+  .page-head.ph-inline .head-actions{width:auto;flex:0 0 auto;flex-wrap:nowrap;gap:8px}
+  .page-head.ph-inline .head-actions .btn{flex:0 0 auto;padding:0 12px}
+  /* secondary buttons (Export) become icon-only so two buttons still fit */
+  .page-head.ph-inline .head-actions .btn:not(.primary){font-size:0;gap:0;width:42px;padding:0;justify-content:center}
+  .page-head.ph-inline .head-actions .btn:not(.primary) svg.i{width:18px;height:18px}
+
+  /* admin dashboard KPIs: two per row */
+  .kpis{grid-template-columns:1fr 1fr!important;gap:10px}
+  .kpi{padding:12px 12px 10px;gap:4px}
+  .kpi-top{font-size:12px}
+  .kpi-val{font-size:21px}
+  .kpi-foot{align-items:center}
+  .kpi-foot .vs{display:none}
+  .kpi .spark{width:52px;height:24px}
+  .kpi .delta{font-size:11px;padding:2px 5px}
+}
+@media (max-width:340px){
+  .kpi .spark{display:none}
+}
