@@ -1,0 +1,1548 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Affiliate · CentGo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/logo.png">
+<link rel="stylesheet" href="assets/styles.css">
+<!-- world map for the click heatmap (page still works without it) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js"></script>
+<style>
+  /* ---------- affiliate portal (shared base comes from assets/styles.css) ---------- */
+  :root{--ink:#0f172a;--ink-2:#1e293b}
+  .page{max-width:1480px}
+  .sec{margin-top:20px}
+
+  /* top bar balance */
+  .bal-chip{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 12px;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:13px;color:var(--text-2);margin-left:auto}
+  .bal-chip b{color:var(--text);font-weight:600}
+  .bal-chip svg.i{width:16px;height:16px;color:var(--green)}
+  .bal-chip:hover{border-color:var(--border-strong)}
+
+  /* announcement */
+  .notice{display:grid;grid-template-columns:1.4fr 1fr;background:var(--ink);color:#e2e8f0;border:0;overflow:hidden}
+  .notice > div{padding:22px 24px}
+  .notice-side{background:var(--ink-2)}
+  .notice-h{display:flex;align-items:center;gap:8px;color:#fff;font-weight:600;font-size:15px;margin-bottom:6px}
+  .notice-h svg.i{width:17px;height:17px;color:#93c5fd}
+  .notice-date{font-size:12.5px;color:#94a3b8;margin-bottom:12px}
+  .notice p{margin:0 0 10px;font-size:13.5px;line-height:1.6;color:#cbd5e1}
+  .notice .join{display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap;font-size:13px;color:#cbd5e1}
+  .notice .btn{background:#fff;color:var(--ink);border-color:#fff}
+  .notice .btn:hover{background:#e2e8f0}
+  .sched{list-style:none;margin:12px 0 16px;padding:0;display:grid;gap:8px}
+  .sched li{display:flex;gap:10px;align-items:baseline;font-size:13.5px;color:#cbd5e1}
+  .sched li::before{content:"";width:6px;height:6px;border-radius:50%;background:#60a5fa;flex-shrink:0;transform:translateY(-2px)}
+  .sched b{color:#fff;font-weight:600}
+  .methods{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12.5px;color:#94a3b8}
+  .methods span{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff;border-radius:6px;padding:3px 9px;font-weight:500}
+
+  /* period cards */
+  .periods{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+  .pcard{padding:16px 18px;display:flex;flex-direction:column}
+  .pc-h{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text-2);margin-bottom:12px}
+  .pc-h svg.i{width:15px;height:15px;color:var(--text-3)}
+  .pc-row{display:flex;justify-content:space-between;font-size:13px;color:var(--text-2);padding:4px 0}
+  .pc-row b{color:var(--text);font-weight:600}
+  .pc-row .vis{display:inline-flex;align-items:center;gap:5px}
+  .pc-row .vis svg.i{width:13px;height:13px}
+  .pc-profit{display:flex;justify-content:space-between;align-items:baseline;margin-top:auto;padding-top:12px;border-top:1px solid var(--border)}
+  .pc-profit span{font-size:12.5px;color:var(--text-2)}
+  .pc-profit b{font-size:20px;font-weight:600;letter-spacing:-.01em}
+  .pcard.feat{background:var(--ink);border-color:var(--ink);color:#fff}
+  .pcard.feat .pc-h,.pcard.feat .pc-row,.pcard.feat .pc-profit span{color:#94a3b8}
+  .pcard.feat .pc-h svg.i{color:#60a5fa}
+  .pcard.feat .pc-row b,.pcard.feat .pc-profit b{color:#fff}
+  .pcard.feat .pc-profit{border-color:rgba(255,255,255,.12)}
+
+  /* summary */
+  .summary{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .scard{padding:16px 18px;display:block}
+  a.scard:hover{border-color:var(--border-strong)}
+  .scard .t{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;color:var(--text-2);font-weight:500}
+  .scard .t .ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center}
+  .scard .t .ic svg.i{width:16px;height:16px}
+  .scard .v{font-size:26px;font-weight:600;letter-spacing:-.02em;margin-top:6px}
+  .scard .f{font-size:12.5px;color:var(--text-3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+  .scard .f b{color:var(--text);font-weight:600}
+
+  /* matches */
+  .matches{display:flex;gap:12px;overflow-x:auto;padding:14px 18px 18px;scroll-snap-type:x mandatory;scrollbar-width:thin}
+  .match{flex:0 0 220px;scroll-snap-align:start;border:1px solid var(--border);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px;background:#fff}
+  .match-l{display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:.05em}
+  .teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px;text-align:center}
+  .team{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-weight:500;line-height:1.25;min-width:0}
+  .tlogo{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700;letter-spacing:.02em;flex-shrink:0}
+  .vs{font-size:11px;font-weight:600;color:var(--text-3)}
+  .match-t{display:flex;align-items:center;justify-content:center;gap:6px;font-size:12.5px;color:var(--text-2);border-top:1px solid #f1f2f4;padding-top:9px}
+  .match-t svg.i{width:14px;height:14px;color:var(--text-3)}
+  .soon{color:var(--red);font-weight:600}
+
+  /* hot campaigns */
+  .hot-row{display:flex;align-items:center;gap:14px;padding:13px 18px;border-top:1px solid #f1f2f4}
+  .hot-row:first-child{border-top:0}
+  .hot-row .t{flex:1;min-width:0}
+  .hot-row .t b{font-weight:600;font-size:14px;margin-right:8px}
+  .hot-row .t small{display:flex;align-items:center;gap:6px;color:var(--text-3);font-size:12.5px;margin-top:3px}
+  .hot-row .t small svg.i{width:13px;height:13px}
+  .hot-row .comm{font-size:13px;color:var(--text-2);white-space:nowrap}
+  .hot-row .comm b{color:var(--text)}
+
+  /* performance chart */
+  .mtabs{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border);border-top:1px solid var(--border)}
+  .mtab{padding:14px 18px;text-align:left;border-bottom:2px solid transparent;margin-bottom:-1px}
+  .mtab:hover{background:#fafafa}
+  .mtab span{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text-2);font-weight:500}
+  .mtab span i{width:8px;height:8px;border-radius:2px}
+  .mtab b{display:block;font-size:19px;font-weight:600;margin-top:3px}
+  .mtab.on{border-color:var(--c);background:#fcfcfd}
+  #chart{width:100%;height:280px;display:block}
+  .viewby{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-3)}
+
+  /* map + countries */
+  .geo{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  #worldMap{height:330px;margin:8px 12px 6px}
+  .map-off{height:100%;display:grid;place-items:center;color:var(--text-3);font-size:13px;background:#f9fafb;border-radius:8px;text-align:center;padding:16px}
+  .jvm-tooltip{font-family:Inter,system-ui,sans-serif!important;font-size:12px!important;background:#0f172a!important;border-radius:6px!important;padding:6px 9px!important}
+  .map-legend{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--text-3);padding:0 18px 14px}
+  .map-legend i{display:block;width:120px;height:6px;border-radius:3px;background:linear-gradient(90deg,#dbe7fd,#1d4ed8)}
+  .rank{width:24px;height:24px;border-radius:50%;display:inline-grid;place-items:center;font-size:11.5px;font-weight:600;background:#f3f4f6;color:var(--text-2)}
+  .rank.r1{background:#fef3c7;color:#92400e}.rank.r2{background:#e5e7eb;color:#374151}.rank.r3{background:#fde4cf;color:#9a3412}
+  .mini{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+  .mini .bar{width:90px;margin:0;height:4px}
+  .mini small{color:var(--text-3);font-size:11px;margin-left:4px}
+
+  /* device / os */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .breakdown{display:grid;grid-template-columns:150px 1fr;gap:22px;align-items:center;padding:14px 18px 18px}
+  .breakdown svg.donut{width:150px;height:150px}
+  .bd-row{padding:6px 0}
+  .bd-top{display:flex;justify-content:space-between;font-size:13px}
+  .bd-top b{font-weight:600}
+  .bd-top b span{color:var(--text-3);font-weight:400;margin-left:6px}
+  .bd-row .bar{margin-top:5px;height:5px}
+
+  /* insights + commission */
+  .ins{padding:6px 18px 18px}
+  .ins h3{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text-3);margin:14px 0 8px}
+  .best{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px}
+  .best small{display:block;font-size:12px;color:var(--text-3)}
+  .best b{font-weight:600}
+  .best .r{text-align:right}
+  .avgs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .avgs div{border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
+  .avgs small{display:block;font-size:12px;color:var(--text-3)}
+  .avgs b{font-size:18px;font-weight:600}
+  .cstat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+  .cstat div{border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center}
+  .cstat small{display:block;font-size:12px;color:var(--text-3)}
+  .cstat b{display:block;font-size:20px;font-weight:600;margin:2px 0}
+  .kv{display:flex;justify-content:space-between;padding:11px 14px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-size:13.5px}
+  .kv span{color:var(--text-2)}
+  .kv b{font-weight:600}
+  .kv.total{background:#f9fafb}
+
+  /* support button (replaces refresh) */
+  .support-fab{position:fixed;right:20px;bottom:20px;z-index:60;display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border-radius:22px;background:var(--ink);color:#fff;font-weight:600;font-size:14px;box-shadow:0 8px 24px rgba(15,23,42,.25)}
+  .support-fab:hover{background:var(--ink-2)}
+  .support-fab svg.i{width:18px;height:18px}
+  .sup-opt{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-weight:500;color:var(--text)}
+  a.sup-opt:hover{border-color:var(--border-strong);background:#f9fafb}
+  .sup-opt small{display:block;font-weight:400;color:var(--text-3);font-size:12.5px}
+  .sup-opt .ic{width:36px;height:36px;border-radius:9px;background:#f3f4f6;display:grid;place-items:center}
+
+  /* other pages */
+  .offer-desc{font-size:12.5px;color:var(--text-2);margin:0;line-height:1.5}
+  .ofoot{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1px solid var(--border)}
+  .ofoot .btn{flex:1;justify-content:center}
+  .copy-field{display:flex;gap:8px}
+  .copy-field input{flex:1;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px;background:#f9fafb}
+  .pay-method{display:flex;align-items:center;gap:12px;padding:14px 18px;border-top:1px solid var(--border);font-size:13px;color:var(--text-2);flex-wrap:wrap}
+  .pay-method b{color:var(--text);font-weight:500}
+  .pay-method a{margin-left:auto}
+  .fsec-foot{display:flex;justify-content:flex-end;margin-top:16px}
+  .day-h{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text-3);padding:14px 18px 6px}
+  .sch-row{display:grid;grid-template-columns:90px 70px 1fr auto;gap:14px;align-items:center;padding:11px 18px;border-top:1px solid #f1f2f4;font-size:13.5px}
+  .sch-row .teams-inline{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:500}
+  .sch-row .tlogo{width:26px;height:26px;font-size:10px}
+
+  /* ---------- premium palette: deep jewel tones + soft gold ---------- */
+  :root{
+    --ink:#0b0b0c; --ink-2:#18181b;
+    --brand:#1fd65f; --brand-d:#0e9f45; --brand-s:#eafbf0;
+    /* older names kept so every rule picks up the brand palette */
+    --indigo:#18181b; --indigo-d:#000; --indigo-s:#f2f2f3;
+    --emerald:#0e9f45; --emerald-d:#053d1c; --emerald-s:#eafbf0;
+    --violet:#15803d; --violet-d:#052e16; --violet-s:#eef8f1;
+    --gold:#0e9f45; --gold-b:#1fd65f; --gold-s:#eafbf0;
+    --accent:#0e9f45; --accent-soft:#eafbf0;
+    --bg:#f5f6f5;
+  }
+  body{background:var(--bg)}
+  .card{box-shadow:0 1px 2px rgba(15,23,42,.04)}
+  .brand-logo{width:36px;height:36px;border-radius:9px;display:block}
+  .nav-item.active{background:var(--ink);color:#fff}
+  .nav-item.active svg.i{color:var(--gold-b)}
+  .nav-item.active .badge{background:rgba(255,255,255,.14);color:#fff}
+  /* balance: highlighted in the logo colours */
+  .bal-chip{height:40px;padding:0 6px 0 14px;gap:10px;background:var(--ink);border-color:var(--ink);color:#d4d4d8;border-radius:10px;box-shadow:0 6px 16px rgba(11,11,12,.18)}
+  .bal-chip svg.i{color:var(--brand);width:17px;height:17px}
+  .bal-chip span{font-size:12.5px;font-weight:500}
+  .bal-chip b{color:#062b14;background:var(--brand);border-radius:7px;padding:4px 10px;font-size:14px;font-weight:700}
+  .bal-chip:hover{background:#18181b;border-color:#18181b}
+
+  /* commission status inside the dark banner */
+  .notice-side .ins{padding:0}
+  .notice-side .cstat{margin-top:12px}
+  .notice-side .cstat div{background:rgba(255,255,255,.05)!important;border-color:rgba(255,255,255,.1)!important}
+  .notice-side .cstat small{color:#a1a1aa}
+  .notice-side .cstat .pend b{color:#fcd34d!important}
+  .notice-side .cstat .rel b{color:var(--brand)!important}
+  .notice-side h3{color:#a1a1aa;margin:16px 0 8px}
+  .notice-side .kv{background:transparent;border-color:rgba(255,255,255,.1);padding:9px 12px;margin-bottom:6px}
+  .notice-side .kv span{color:#a1a1aa}
+  .notice-side .kv b{color:#fff}
+  .notice-side .kv.total{background:rgba(31,214,95,.1);border-color:rgba(31,214,95,.35)}
+  .notice-side .kv.total span{color:#d9fbe5}
+  .notice-side .kv.total b{color:var(--brand)}
+
+  /* payment notice: its own card, one row, right under the top banner */
+  .pay-row{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-top:14px;padding:14px 18px}
+  .pr-title{display:flex;align-items:center;gap:10px;flex-shrink:0}
+  .pr-title b{display:block;font-size:14px;font-weight:600}
+  .pr-title small{display:block;font-size:12px;color:var(--text-3)}
+  .pr-sched{list-style:none;margin:0;padding:0 0 0 24px;border-left:1px solid var(--border);display:grid;gap:5px;flex:1;min-width:260px}
+  .pr-sched li{display:flex;align-items:baseline;gap:8px;font-size:13.5px;color:var(--text-2)}
+  .pr-sched li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--brand);flex-shrink:0;transform:translateY(-2px)}
+  .pr-sched b{color:var(--ink);font-weight:600}
+  .pr-methods small{display:block;font-size:12px;color:var(--text-3);margin-bottom:5px}
+  .pr-methods div{display:flex;gap:6px;flex-wrap:wrap}
+  .pr-methods span{border:1px solid #c6f0d5;background:var(--brand-s);color:#14532d;border-radius:6px;padding:4px 10px;font-size:12.5px;font-weight:600}
+  .pr-next{display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:9px;background:var(--ink);color:#fff;flex-shrink:0}
+  .pr-next svg.i{width:17px;height:17px;color:var(--brand)}
+  .pr-next small{display:block;font-size:11.5px;color:#a1a1aa}
+  .pr-next b{display:block;font-size:14px;color:var(--brand);font-weight:700}
+  @media (max-width:900px){.pr-sched{border-left:0;padding-left:0;flex-basis:100%}}
+
+  /* performance insights at full width */
+  .bests{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .bests .best{margin:0}
+  .ins-wide .avgs{grid-template-columns:repeat(3,1fr)}
+  @media (max-width:800px){.bests{grid-template-columns:1fr}.methods .nx{margin-left:0}}
+
+  /* schedules */
+  .sch-filters{padding:16px 18px 10px;margin-bottom:16px}
+  .fl-label{font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);margin:2px 0 8px}
+  .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;margin-bottom:6px;scrollbar-width:thin}
+  .chip-btn{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border:1px solid var(--border);border-radius:18px;background:#fff;font-weight:500;font-size:13px;white-space:nowrap;color:var(--text-2)}
+  .chip-btn:hover{border-color:var(--border-strong);color:var(--text)}
+  .chip-btn .cnt{font-size:11.5px;background:#f2f2f3;color:var(--text-2);border-radius:10px;padding:1px 7px}
+  .chip-btn.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  .chip-btn.on .cnt{background:var(--brand);color:#062b14}
+  .lg-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+  .mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:64px}
+  .mgrid .match{flex:none}
+  .teams.one{grid-template-columns:1fr}
+  .live-dot{width:8px;height:8px;border-radius:50%;background:#d92d20;box-shadow:0 0 0 3px #fdeceb;animation:pulse 1.4s infinite}
+  @keyframes pulse{50%{box-shadow:0 0 0 6px rgba(217,45,32,.08)}}
+
+  /* my links / reports / billing */
+  .camp-tag{display:inline-block;font-size:12px;font-weight:600;color:var(--ink);background:#f2f2f3;border-radius:6px;padding:3px 9px}
+  .camp-tag:hover{background:var(--brand-s);color:var(--brand-d)}
+  .ar-pill{display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 12px;border-radius:8px;background:var(--ink);color:#d4d4d8;font-size:13px;font-weight:500}
+  .ar-pill svg.i{width:15px;height:15px;color:var(--brand)}
+  .ar-pill b{color:var(--brand);font-weight:700;min-width:30px}
+  .rec-badge{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--text-2)}
+  .rec-badge b{background:var(--brand);color:#062b14;border-radius:6px;padding:2px 9px;font-size:13px;letter-spacing:0}
+  .date-tag{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:#14532d;background:var(--brand-s);border:1px solid #c6f0d5;border-radius:6px;padding:3px 9px}
+  .amt-tag{display:inline-block;font-weight:700;color:#fff;background:var(--ink);border-radius:6px;padding:3px 10px;font-size:13px}
+  .scard.bal-card{background:radial-gradient(130% 120% at 100% 0%,#123d22 0%,#0b0b0c 60%);border-color:transparent;color:#fff}
+  .scard.bal-card .t{color:#a1a1aa}
+  .scard.bal-card .t .ic{background:rgba(31,214,95,.15);color:var(--brand)}
+  .scard.bal-card .v{color:var(--brand)}
+  .scard.bal-card .f{color:#a1a1aa;border-color:rgba(255,255,255,.12)}
+  .scard.bal-card .f b{color:#fff}
+  .rbtn.dl{margin-left:auto;border:1px solid var(--border)}
+  .rbtn.dl:hover{background:var(--brand-s)!important;color:var(--brand-d)!important;border-color:#c6f0d5}
+
+  /* profile */
+  .prof-cover{height:150px;border-radius:12px;background:radial-gradient(120% 160% at 100% 0%,#14532d 0%,#0b0b0c 60%)}
+  .prof-card{margin:-60px 20px 64px;position:relative}
+  .prof-card .prof-top{display:flex;align-items:center;gap:16px;padding:20px 22px;border-bottom:1px solid var(--border)}
+  .prof-avatar{width:68px;height:68px;border-radius:16px;background:var(--ink);color:var(--brand);display:grid;place-items:center;font-weight:700;font-size:22px;box-shadow:0 8px 20px rgba(11,11,12,.2);flex-shrink:0}
+  .prof-card .prof-id{flex:1;min-width:0}
+  .prof-card .prof-id h1{margin:0;font-size:20px;font-weight:600}
+  .prof-card .prof-id span{color:var(--text-3);font-size:13px}
+  .prof-card .btn.primary{background:var(--ink);border-color:var(--ink)}
+  .prof-card .btn.primary svg.i{color:var(--brand)}
+  .prof-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:28px;padding:20px 22px 24px}
+  .prof-grid h2{margin:0 0 14px;font-size:14px;font-weight:600}
+  .prof-grid .dl{grid-template-columns:110px 1fr}
+  .ro-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .ro-field{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--border);border-radius:9px;padding:10px 14px}
+  .ro-field small{display:block;font-size:11.5px;color:var(--text-3)}
+  .ro-field span{font-size:13.5px;font-weight:500;word-break:break-all}
+  .ro-field svg.i{width:17px;height:17px;color:var(--brand-d);flex-shrink:0}
+  /* password card */
+  .prof-card{margin-bottom:16px!important}
+  .pw-card{margin:0 20px 64px;padding:20px 22px}
+  .pw-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:16px}
+  .pw-head h2{margin:0;font-size:15px;font-weight:600;display:flex;align-items:center;gap:10px}
+  .pw-head p{margin:6px 0 0;font-size:12.5px;color:var(--text-3)}
+  .pw-head .link-btn{color:var(--brand-d);font-size:13px;white-space:nowrap}
+  .pw-wrap{position:relative}
+  .pw-wrap input{padding-right:42px}
+  .pw-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:6px;display:grid;place-items:center;color:var(--text-3)}
+  .pw-eye:hover,.pw-eye.on{color:var(--ink);background:#f2f2f3}
+  .pw-eye svg.i{width:16px;height:16px}
+  .pw-meter{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:2px}
+  .pw-meter i{height:4px;border-radius:2px;background:#e5e7eb}
+  .pw-meter[data-s="1"] i:nth-child(-n+1){background:#d92d20}
+  .pw-meter[data-s="2"] i:nth-child(-n+2){background:#d97706}
+  .pw-meter[data-s="3"] i:nth-child(-n+3){background:var(--brand)}
+  .pw-meter[data-s="4"] i{background:var(--brand-d)}
+  .pw-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:12.5px;flex-wrap:wrap}
+  .pw-card .btn.primary{background:var(--ink);border-color:var(--ink)}
+  @media (max-width:900px){.prof-grid,.ro-grid{grid-template-columns:1fr}.prof-card{margin:-60px 0 16px}.pw-card{margin:0 0 64px}.pw-head{flex-direction:column}}
+
+  /* campaign cards + promotion links */
+  .stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+  .ccard.is-hot{border-color:#f3cfcc}
+  .cflame{position:absolute;left:10px;top:10px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.92);color:#d92d20;display:grid;place-items:center}
+  .cflame svg.i{width:16px;height:16px}
+  .ccover{background-image:radial-gradient(120% 120% at 100% 0%,color-mix(in srgb,var(--cv) 55%,#1fd65f) 0%,var(--cv) 55%)}
+  .ccover-t{font-size:19px}
+  .csub{font-size:12.5px;color:var(--text-3);margin-top:-4px}
+  .cfoot .btn.primary{flex:1;justify-content:center;background:var(--ink);border-color:var(--ink)}
+  .cfoot .btn.primary:hover{background:#27272a}
+  .cfoot .btn.primary svg.i{color:var(--brand)}
+  .tipbox{display:flex;gap:12px;margin:16px 18px;padding:14px 16px;border:1px dashed #9fe3b8;background:var(--brand-s);border-radius:10px;color:#14532d}
+  .tipbox svg.i{color:var(--brand-d);margin-top:1px}
+  .tipbox b{display:block;font-weight:600;font-size:13.5px}
+  .tipbox p{margin:2px 0 0;font-size:13px;color:#166534}
+  .create-link{margin:4px 18px 18px;padding:16px;border-radius:10px;background:var(--ink);color:#fff}
+  .create-link .cl-h{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;margin-bottom:10px}
+  .create-link .cl-h svg.i{width:16px;height:16px;color:var(--brand)}
+  .cl-row{display:grid;grid-template-columns:220px 1fr auto;gap:8px}
+  .cl-row select,.cl-row input{height:40px;border-radius:8px;border:1px solid #3f3f46;background:#18181b;color:#fff;padding:0 12px;font:inherit;font-size:13.5px;outline:0}
+  .cl-row select:focus,.cl-row input:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(31,214,95,.18)}
+  .cl-row input::placeholder{color:#71717a}
+  .cl-row .btn{height:40px;background:var(--brand);border-color:var(--brand);color:#062b14;font-weight:600}
+  .cl-row .btn:hover{background:#3be078}
+  .cl-err{display:block;color:#fca5a5;font-size:12.5px;min-height:16px;margin-top:6px}
+  .cl-row.bad input{border-color:#f87171}
+  .row-acts .rbtn{width:30px;height:30px;border-radius:6px;display:grid;place-items:center;color:var(--text-2)}
+  .row-acts .rbtn:hover{background:#f3f4f6;color:var(--text)}
+  .row-acts .rbtn.del:hover{background:var(--red-soft);color:var(--red)}
+  .row-acts .rbtn svg.i{width:16px;height:16px}
+  .btn.danger-btn{background:var(--red)!important;border-color:var(--red)!important;color:#fff!important}
+  @media (max-width:700px){.stats3{grid-template-columns:1fr}.cl-row{grid-template-columns:1fr}}
+
+  /* announcement: dark, with gold details */
+  .notice{background:radial-gradient(120% 140% at 100% 0%,#0f2a19 0%,#0b0b0c 55%);box-shadow:0 12px 32px rgba(15,23,42,.18)}
+  .notice-side{background:rgba(255,255,255,.04);border-left:1px solid rgba(255,255,255,.08)}
+  .notice p,.sched li,.notice .join{color:#cbd5e1}
+  .notice-date{color:#94a3b8}
+  .notice-h svg.i{color:var(--gold-b)}
+  .sched li::before{background:var(--gold-b)}
+  .notice .btn{background:var(--gold-b);border-color:var(--gold-b);color:var(--ink);font-weight:600}
+  .notice .btn:hover{background:#3be078}
+  .methods{color:#94a3b8}
+  .methods span{background:rgba(31,214,95,.08);border:1px solid rgba(31,214,95,.4);color:#d9fbe5}
+
+  /* period cards: three jewel-tone cards, two quiet white ones */
+  .pcard.solid{background:var(--pg);border-color:transparent;color:#fff;box-shadow:0 10px 24px rgba(15,23,42,.14), inset 0 1px 0 rgba(255,255,255,.08)}
+  .pcard.solid .pc-h,.pcard.solid .pc-row,.pcard.solid .pc-profit span{color:rgba(255,255,255,.7)}
+  .pcard.solid .pc-h svg.i{color:var(--gold-b)}
+  .pcard.solid .pc-row b,.pcard.solid .pc-profit b{color:#fff}
+  .pcard.solid .pc-profit{border-color:rgba(255,255,255,.14)}
+  .pcard.plain .pc-h svg.i{color:var(--pc)}
+  .pcard.plain .pc-profit b{color:var(--ink)}
+
+  /* summary */
+  .scard .t .ic{background:var(--sc-s);color:var(--sc)}
+  .scard .f b{color:var(--ink)}
+
+  /* section headings */
+  .card-head h2{display:flex;align-items:center;gap:10px}
+  .hic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;background:var(--hs);color:var(--h);flex-shrink:0}
+  .hic svg.i{width:16px;height:16px}
+
+  .match{border-top:2px solid var(--lc)}
+  .match-l span:first-child{color:var(--lc)}
+  .hot-row:hover{background:#fafafc}
+  .hot-row .btn.primary{background:var(--ink);border-color:var(--ink)}
+  .hot-row .btn.primary:hover{background:#27272a}
+  .hot-row .comm b{color:var(--gold)}
+
+  .mtab.on{background:#fafafc}
+  .mtab.on b{color:var(--ink)}
+
+  .best{border-left:2px solid var(--bc)}
+  .best .r b{color:var(--ink)}
+  .avgs div{background:#fafafc}
+  .avgs b{color:var(--ink)}
+  .cstat .pend{background:var(--gold-s);border-color:#efe1c2}
+  .cstat .pend b{color:var(--gold)!important}
+  .cstat .rel{background:var(--emerald-s);border-color:#cfe6dc}
+  .cstat .rel b{color:var(--emerald)!important}
+  .kv.total{background:var(--ink);border-color:var(--ink)}
+  .kv.total span{color:#cbd5e1}
+  .kv.total b{color:var(--gold-b)}
+  .rank.r1{background:var(--gold-s);color:var(--gold)}
+
+  /* support */
+  .support-fab{background:var(--ink);box-shadow:0 10px 26px rgba(15,23,42,.28)}
+  .support-fab svg.i{color:var(--gold-b)}
+  .support-fab:hover{background:var(--ink-2)}
+
+  /* trend tags in the same palette */
+  .ttag.t-hot{color:#b42318;background:#fdeceb}
+  .ttag.t-new{color:var(--brand-d);background:var(--brand-s)}
+  .ttag.t-evergreen{color:var(--emerald);background:var(--emerald-s)}
+  .ttag.t-ending,.ttag.t-seasonal{color:#3f3f46;background:#f2f2f3}
+
+  @media (max-width:1280px){.periods{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:1100px){.summary{grid-template-columns:repeat(2,1fr)}.geo,.split{grid-template-columns:1fr}.notice{grid-template-columns:1fr}.mtabs{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:700px){.periods{grid-template-columns:1fr 1fr}.breakdown{grid-template-columns:1fr}.breakdown svg.donut{margin:0 auto}.hot-row{flex-wrap:wrap}.sch-row{grid-template-columns:1fr auto}.sch-row .lg{display:none}}
+  @media (max-width:480px){.periods,.summary{grid-template-columns:1fr}.bal-chip span{display:none}.support-fab span{display:none}.support-fab{padding:0 13px}}
+</style>
+</head>
+<body>
+
+<!-- icon sprite (same set as admin.html) -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.4 3.2-5.5 6.5-5.5s5.9 2.1 6.5 5.5"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"/><path d="M18 14.8c1.9.7 3.2 2.6 3.5 5.2"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4"/><path d="M9 13h6M9 17h4"/></symbol>
+    <symbol id="i-cursor" viewBox="0 0 24 24"><path d="m5 3 6.5 17 2.3-6.8L20.5 11z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.7 2.7L16 10"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v6c0 4.5 3.2 8 7.5 9 4.3-1 7.5-4.5 7.5-9V6z"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></symbol>
+    <symbol id="i-percent" viewBox="0 0 24 24"><path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></symbol>
+    <symbol id="i-dollar" viewBox="0 0 24 24"><path d="M12 2v20"/><path d="M17 6.5c-.8-1.5-2.6-2.5-5-2.5-3 0-5 1.5-5 3.8 0 5.2 10.5 2.7 10.5 8.2 0 2.3-2.2 4-5.5 4-2.6 0-4.6-1.1-5.5-3"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M10 11v6M14 11v6"/><path d="M6 7l1 13h10l1-13"/><path d="M9 7V4h6v3"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-ok" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c1 3.5 5 5.5 5 10a5 5 0 0 1-10 0c0-2.2 1-3.6 2-4.5.2 1.7 1 2.8 2 3.2 0-3 0-5.7 1-8.7z"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></symbol>
+    <symbol id="i-user"viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4 4-6.5 8-6.5s7.2 2.5 8 6.5"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M15 9V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h4"/></symbol>
+    <symbol id="i-chevl"viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></symbol>
+    <symbol id="i-globe"viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></symbol>
+  </defs>
+</svg>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+    <symbol id="i-support" viewBox="0 0 24 24"><path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><path d="M19 19c0 1.5-2 2.5-5 2.5"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M4 7h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a1 1 0 0 1-1-1V7z"/><path d="M4 7l11-3v3"/><circle cx="16" cy="13.5" r="1.2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21c.7-3.6 3.5-6 7-6s6.3 2.4 7 6"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 21h8M9 17h6"/></symbol>
+    <symbol id="i-device" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/></symbol>
+  </defs>
+</svg>
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <img class="brand-logo" src="assets/logo.png" alt="CentGo">
+    <div><div class="brand-name">CentGo</div><div class="brand-sub">Affiliate</div></div>
+  </div>
+  <nav class="nav" id="nav">
+    <div class="nav-label">Overview</div>
+    <a class="nav-item" href="#dashboard" data-page="dashboard"><svg class="i"><use href="#i-home"/></svg>Dashboard</a>
+    <div class="nav-label">Promote &amp; track</div>
+    <a class="nav-item" href="#campaign" data-page="campaign"><svg class="i"><use href="#i-flag"/></svg>Campaign</a>
+    <a class="nav-item" href="#schedules" data-page="schedules"><svg class="i"><use href="#i-calendar"/></svg>Schedules</a>
+    <a class="nav-item" href="#links" data-page="links"><svg class="i"><use href="#i-link"/></svg>My Links<span class="badge" id="linkBadge"></span></a>
+    <a class="nav-item" href="#clicks" data-page="clicks"><svg class="i"><use href="#i-cursor"/></svg>Clicks</a>
+    <a class="nav-item" href="#conversions" data-page="conversions"><svg class="i"><use href="#i-check"/></svg>Conversion</a>
+    <div class="nav-label">Account</div>
+    <a class="nav-item" href="#billing" data-page="billing"><svg class="i"><use href="#i-wallet"/></svg>Billing</a>
+    <a class="nav-item" href="#profile" data-page="profile"><svg class="i"><use href="#i-user"/></svg>Profile</a>
+  </nav>
+  <div class="side-foot" id="sideFoot"></div>
+</aside>
+<div class="scrim" id="scrim"></div>
+
+<div class="main">
+  <header class="topbar">
+    <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu"><svg class="i"><use href="#i-menu"/></svg></button>
+    <div class="crumbs" id="crumbs"></div>
+    <a class="bal-chip" href="#billing" id="balChip" title="Go to billing"></a>
+  </header>
+  <main class="page" id="page"></main>
+</div>
+
+<button class="support-fab" id="supportBtn" aria-label="Support"><svg class="i"><use href="#i-support"/></svg><span>Support</span></button>
+
+<div class="modal-bg" id="logoutModal">
+  <div class="modal" role="dialog" aria-modal="true">
+    <h3>Log out?</h3>
+    <p>You'll need to sign in again to see your dashboard.</p>
+    <div class="acts"><button class="btn" data-close>Cancel</button><button class="btn danger" id="confirmLogout">Log out</button></div>
+  </div>
+</div>
+<div class="modal-bg" id="formModal">
+  <div class="modal wide" role="dialog" aria-modal="true">
+    <h3 id="formTitle"></h3>
+    <p id="formSub"></p>
+    <form class="form" id="mForm" novalidate></form>
+    <div class="acts"><button class="btn" data-close id="formCancel">Cancel</button><button class="btn primary" id="formSave">Save</button></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ helpers ============ */
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => [...el.querySelectorAll(s)];
+const fmt = n => n.toLocaleString('en-US');
+const money = n => (n<0?'-':'') + '$' + Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const icon = id => `<svg class="i"><use href="#i-${id}"/></svg>`;
+const DAY = 864e5, pad2 = n => String(n).padStart(2,'0');
+const isoDay = d => new Date(d.getTime() - d.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const dateFmt = d => d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+const shortDate = d => d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+const timeFmt = d => d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+const dtFmt = d => dateFmt(d) + ', ' + timeFmt(d);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const initials = n => n.split(' ').filter(Boolean).map(w=>w[0]).join('').slice(0,2).toUpperCase();
+const sumBy = (arr, k) => arr.reduce((t,x)=>t+x[k], 0);
+function rng(seed){ return () => { seed = (seed*16807) % 2147483647; return (seed-1)/2147483646; }; }
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2400); }
+function downloadCsv(rows, filename){
+  const q = v => /[",\n]/.test(String(v)) ? `"${String(v).replace(/"/g,'""')}"` : v;
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([rows.map(r=>r.map(q).join(',')).join('\n')], {type:'text/csv'}));
+  a.download = filename; a.click(); toast('CSV exported');
+}
+function copyText(text, msg='Copied'){
+  const fallback = () => { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); toast(msg); } catch { toast(text); } ta.remove(); };
+  navigator.clipboard?.writeText ? navigator.clipboard.writeText(text).then(() => toast(msg), fallback) : fallback();
+}
+function relTime(d){
+  const m = Math.round((d - Date.now())/6e4);
+  if(m < 60) return {text:`in ${Math.max(1,m)}m`, soon:true};
+  if(m < 24*60) return {text:`in ${Math.round(m/60)}h`, soon:m<120};
+  return {text:`${d.toLocaleDateString('en-US',{weekday:'short'})} ${timeFmt(d)}`, soon:false};
+}
+
+/* ============ mock data: the signed-in affiliate ============ */
+const NOW = Date.now(), TODAY = new Date(), SOD = new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate()).getTime();
+const WEEK0 = SOD - ((TODAY.getDay()+6)%7)*DAY;                       // Monday of this week
+const MONTH0 = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1).getTime();
+const ME = {
+  name:'Alex Rahman', email:'alex42@mail.com', mobile:'+880 17 5512 3401', country:'Bangladesh', state:'Rajshahi', city:'Sirajganj',
+  zip:'6700', address:'42 Station Road', website:'https://alexdeals.com', skype:'live:alex42', telegram:'@alex42',
+  pay:'BD Bank', payout:'•••• 4821', joined:new Date(NOW - 200*DAY), manager:'Rafi Karim',
+  registered:new Date(NOW - 200*DAY - 7*36e5),   // signed up; account was approved/created a few hours later (= joined)
+};
+const PAYS = ['Binance','Wise','BD Bank'];
+const COUNTRY_NAME = {US:'United States', GB:'United Kingdom', NZ:'New Zealand', AU:'Australia', ZA:'South Africa', CA:'Canada', DE:'Germany', BD:'Bangladesh', IN:'India'};
+const COUNTRY_W = ['US','US','US','US','US','US','GB','GB','NZ','NZ','AU','AU','ZA','CA','DE','BD','IN'];
+const TRENDS = {hot:{label:'Hot', icon:'flame'}, seasonal:{label:'Seasonal', icon:'calendar'}, evergreen:{label:'Evergreen', icon:'spark'}, new:{label:'New', icon:'star'}, ending:{label:'Ending soon', icon:'clock'}};
+const COVER_COLORS = ['#1e3a5f','#5b2333','#2f4f3a','#4a3b6b','#6b4423','#264653','#3d3d3d','#7a2e2e'];
+const AVG_SALE = 24;
+
+// campaigns the affiliate can promote (#number is the campaign id shown on the card)
+const CAMP_COVERS = ['#0b0b0c','#0f2a19','#18181b','#123d22','#1c1917','#052e16'];
+let OFFERS = [
+  ['Music Awards Signup','2026','hot','percent',65,95], ['Championship Final','2026','hot','percent',50,53],
+  ['International Rugby','2026','hot','fixed',12,102], ['League World Cup','2026','hot','percent',45,103],
+  ['NCAAF Signup','2026','evergreen','fixed',8,64], ['Soccer Signup','All season','evergreen','percent',40,52],
+  ['NFL Signup','2026','evergreen','fixed',10,51], ['Sailing GP Signup','All season','evergreen','fixed',6,57],
+  ['Boxing Signup','All season','evergreen','fixed',12,44], ['UFC Signup','All season','evergreen','fixed',15,46],
+  ['NBA Signup','2026','evergreen','percent',45,48], ['Golf Signup','All season','evergreen','fixed',7,61],
+  ['Winter Promo','Holiday deal','seasonal','percent',40,110], ['Black Friday Early','Ends soon','ending','percent',30,111],
+].map(([title, sub, trend, commType, commValue, num], i) => ({
+  id:num, title, sub, trend, commType, commValue, color:CAMP_COVERS[i % CAMP_COVERS.length],
+  start:new Date(SOD - (30 + i*23)*DAY), end:new Date(SOD + (trend==='ending' ? 5 : 220 + i*60)*DAY),
+}));
+const offerById = id => OFFERS.find(o => o.id===id);
+const commShort = o => o.commType==='percent' ? `${o.commValue}%` : money(o.commValue);
+const commText = o => o.commType==='percent' ? `${o.commValue}% of sale` : `${money(o.commValue)} per conversion`;
+const payoutOf = o => o.commType==='percent' ? AVG_SALE*o.commValue/100 : o.commValue;
+
+// tracking domains affiliates can choose from when creating a link
+const DOMAINS = ['pm.link','pmwatch.link','pmlive.link'];
+let MY_LINKS = [[95,'ALEX10',190,0],[53,'ALEX22',170,1],[44,'stanboxing',130,0],[51,'ALEXNFL',90,2],[64,'ALEXCFB',40,1]]
+  .map(([offer, code, daysAgo, d], i) => ({id:1536+i, offer, code, domain:DOMAINS[d], created:new Date(SOD - daysAgo*DAY + (9+i)*36e5), status:'active'}));
+const linkUrl = l => `https://${l.domain}/${l.code.toLowerCase()}`;
+
+// 180 days of clicks (with a visitor id for "unique visitors"); ~3% of human clicks convert
+const CLICKS = [], CONVS = [];
+(() => {
+  const r = rng(2024), pick = a => a[Math.floor(r()*a.length)], weights = [5,4,3,2,1];
+  for(let d=179; d>=0; d--){
+    const dayStart = SOD - d*DAY, wd = new Date(dayStart).getDay();
+    let n = Math.round(30 * (wd===0||wd===6 ? 1.3 : 1) * (0.6 + r()*0.8) * (1 + (179-d)/240));
+    if(d===0) n = Math.round(n * (TODAY.getHours()+1)/24);
+    const live = MY_LINKS.filter(l => l.created.getTime() <= dayStart); if(!live.length) continue;
+    const total = live.reduce((t,_,i) => t + weights[i], 0), visitors = Math.max(1, Math.round(n*0.8));
+    for(let i=0;i<n;i++){
+      let x = r()*total, link = live[0];
+      for(let j=0;j<live.length;j++){ x -= weights[j]; if(x<=0){ link = live[j]; break; } }
+      const t = dayStart + (d===0 ? r()*(NOW-dayStart) : r()*DAY);
+      const dev = pick(['Desktop','Desktop','Desktop','Mobile','Mobile','Mobile','Tablet','Bot']);
+      const os = dev==='Bot' ? pick(['Linux','Windows']) : dev==='Desktop' ? pick(['Windows','Windows','Windows','macOS','Linux','Chromium OS']) : pick(['Android','Android','iOS']);
+      const c = {date:new Date(t), code:link.code, offer:link.offer, country:pick(COUNTRY_W), device:dev, os,
+        browser:pick(['Chrome','Chrome','Safari','Firefox','Edge']), referrer:pick(['facebook.com','t.me','google.com','youtube.com','Direct']),
+        vid:`${d}-${Math.floor(r()*visitors)}`, ip:`${pick([38,66,103,64,37,68,146])}.${Math.floor(r()*255)}.${Math.floor(r()*255)}.${Math.floor(r()*255)}`};
+      CLICKS.push(c);
+      if(dev!=='Bot' && r() < 0.03) CONVS.push({date:new Date(Math.min(NOW, t + r()*3*36e5)), code:c.code, offer:c.offer, country:c.country,
+        amount:+(payoutOf(offerById(c.offer))*(0.8 + r()*0.4)).toFixed(2)});
+    }
+  }
+  CLICKS.sort((a,b) => b.date-a.date); CONVS.sort((a,b) => b.date-a.date);
+})();
+
+// payouts follow the schedule: 1st–15th paid on the 22nd, 16th–end paid on the 7th of next month
+let PAYOUTS = [], PAID_CUTOFF = -Infinity;
+(() => {
+  const periods = [];
+  for(let k=13; k>=0; k--){   // 7 months of half-month pay periods (covers all 180 days of data)
+    const m = new Date(TODAY.getFullYear(), TODAY.getMonth()-Math.floor(k/2), 1);
+    if(k%2===1) periods.push({start:m.getTime(), end:new Date(m.getFullYear(), m.getMonth(), 15, 23,59,59).getTime(), pay:new Date(m.getFullYear(), m.getMonth(), 22, 11)});
+    else periods.push({start:new Date(m.getFullYear(), m.getMonth(), 16).getTime(), end:new Date(m.getFullYear(), m.getMonth()+1, 0, 23,59,59).getTime(), pay:new Date(m.getFullYear(), m.getMonth()+1, 7, 11)});
+  }
+  periods.filter(p => p.pay.getTime() <= NOW).forEach((p, i) => {
+    const amount = +sumBy(CONVS.filter(c => c.date.getTime() >= p.start && c.date.getTime() <= p.end), 'amount').toFixed(2);
+    PAID_CUTOFF = Math.max(PAID_CUTOFF, p.end);
+    const pm = i >= 9 ? ['BD Bank','•••• 4821'] : i >= 5 ? ['Wise','alex42@mail.com'] : ['Binance','ID 58210473'];
+    if(amount > 0) PAYOUTS.push({date:p.pay, amount, method:pm[0], account:pm[1], status:'paid', ref:`PO-${3101+i}`,
+      desc:`${new Date(p.start).toLocaleDateString('en-US',{month:'long'})} ${new Date(p.start).getDate()===1 ? '1st' : '2nd'} Payment`,
+      period:`${shortDate(new Date(p.start))} – ${shortDate(new Date(p.end))}`});
+  });
+  PAYOUTS.reverse();
+})();
+// pending = earned but not paid out yet · released = included in a payout
+const convStatus = c => c.date.getTime() <= PAID_CUTOFF ? 'paid' : 'pending';
+const STATUS_PILL = {paid:['ok','Paid'], pending:['warn','Pending']};
+const pill = s => `<span class="pill ${STATUS_PILL[s][0]}">${STATUS_PILL[s][1]}</span>`;
+function balance(){
+  const earned = sumBy(CONVS,'amount'), paid = sumBy(PAYOUTS,'amount'), pend = CONVS.filter(c => convStatus(c)==='pending');
+  return {earned, paid, current:+(earned-paid).toFixed(2), pending:sumBy(pend,'amount'), pendingN:pend.length,
+    released:sumBy(CONVS.filter(c => convStatus(c)==='paid'),'amount'), releasedN:CONVS.length - pend.length};
+}
+function nextPayout(){
+  const d = TODAY.getDate(), mon = (o=0) => new Date(TODAY.getFullYear(), TODAY.getMonth()+o, 1).toLocaleDateString('en-US',{month:'short'});
+  return d <= 10 ? `${mon()} 7–10` : d <= 25 ? `${mon()} 22–25` : `${mon(1)} 7–10`;
+}
+
+// match schedule (team logos replaced with initials). Live = started less than 2.5h ago.
+const LEAGUES = {
+  NFL:   {name:'NFL',     teams:['Dallas Cowboys','Green Bay Packers','Kansas City Chiefs','Buffalo Bills','Miami Dolphins','Detroit Lions']},
+  SOCCER:{name:'Soccer',  teams:['Arsenal','Chelsea','Real Madrid','Barcelona','Inter Milan','Bayern Munich','Ajax','Benfica']},
+  UFC:   {name:'UFC/MMA', teams:['Marcus Vale','Diego Ruiz','Ivan Kolar','Sam Okoro','Leo Grant','Tariq Hale']},
+  NCAAF: {name:'NCAAF',   teams:['Akron Zips','Massachusetts Minutemen','Ohio Bobcats','Toledo Rockets','Kent State Golden Flashes','Ball State Cardinals']},
+  BOXING:{name:'Boxing',  teams:['Andre Cole','Rafael Mendes','Kofi Mensah','Tomasz Brenner','Jamal Pierce','Viktor Lund']},
+  RUGBY: {name:'Rugby',   teams:['New Zealand','South Africa','England','Ireland','France','Australia']},
+  NBA:   {name:'NBA',     teams:['Memphis Grizzlies','Cleveland Cavaliers','Houston Rockets','Indiana Pacers','Milwaukee Bucks','Miami Heat','Philadelphia 76ers','Orlando Magic','Washington Wizards','Toronto Raptors','Denver Nuggets','Boston Celtics']},
+  NHL:   {name:'NHL',     teams:['Boston Bruins','Toronto Maple Leafs','Chicago Blackhawks','Detroit Red Wings','Vegas Golden Knights','Seattle Kraken']},
+  RACING:{name:'Racing',  events:['Desert Grand Prix','Coastal 500','Mountain Rally','City Night Race']},
+};
+const LEAGUE_COLORS = {NFL:'#18181b', SOCCER:'#0e9f45', UFC:'#b42318', NCAAF:'#15803d', BOXING:'#7f1d1d', RUGBY:'#3f3f46', NBA:'#c2410c', NHL:'#1e3a8a', RACING:'#52525b'};
+const TEAM_COLORS = ['#18181b','#27272a','#0e9f45','#3f3f46','#15803d','#52525b','#052e16','#1c1917'];
+const teamColor = n => TEAM_COLORS[[...n].reduce((h,c) => h + c.charCodeAt(0), 0) % TEAM_COLORS.length];
+const MATCH_LIVE_MS = 2.5*36e5;
+const isLive = m => m.start.getTime() <= NOW && NOW < m.start.getTime() + MATCH_LIVE_MS;
+const MATCHES = (() => {
+  const r = rng(91), out = [], keys = Object.keys(LEAGUES), weighted = ['NBA','NBA','NBA','NFL','NFL','SOCCER','SOCCER','NHL','NCAAF','UFC','BOXING','RUGBY','RACING'];
+  const add = (lg, t) => {
+    const L = LEAGUES[lg];
+    if(L.events) return out.push({league:lg, event:L.events[Math.floor(r()*L.events.length)], start:new Date(t)});
+    const a = Math.floor(r()*L.teams.length); let b = Math.floor(r()*L.teams.length); if(b===a) b = (a+1) % L.teams.length;
+    out.push({league:lg, home:L.teams[a], away:L.teams[b], start:new Date(t)});
+  };
+  add('NBA', NOW - 40*6e4); add('SOCCER', NOW - 85*6e4);                       // two games in progress
+  for(let d=0; d<7; d++){
+    const n = d===0 ? 18 : d<3 ? 20 + Math.floor(r()*30) : 5 + Math.floor(r()*12);
+    for(let i=0;i<n;i++){
+      const t = SOD + d*DAY + (10*60 + r()*13.5*60)*6e4;
+      if(t + MATCH_LIVE_MS < NOW || (t <= NOW)) continue;                      // skip finished / already-started (except the two above)
+      add(weighted[Math.floor(r()*weighted.length)], t);
+    }
+  }
+  return out.sort((x,y) => x.start-y.start);
+})();
+const tlogo = n => `<span class="tlogo" style="background:${teamColor(n)}" title="${esc(n)}">${initials(n)}</span>`;
+function matchCard(m){
+  const t = relTime(m.start), live = isLive(m);
+  const teams = m.event
+    ? `<div class="teams one"><div class="team">${tlogo(m.event)}${esc(m.event)}</div></div>`
+    : `<div class="teams"><div class="team">${tlogo(m.home)}${esc(m.home)}</div><span class="vs">VS</span><div class="team">${tlogo(m.away)}${esc(m.away)}</div></div>`;
+  return `<div class="match" style="--lc:${LEAGUE_COLORS[m.league]}">
+    <div class="match-l"><span>${LEAGUES[m.league].name}</span><span>${shortDate(m.start)}</span></div>
+    ${teams}
+    <div class="match-t">${live ? `<span class="live-dot"></span><span class="soon">Live now</span>` : `${icon('clock')}<span class="${t.soon?'soon':''}">${t.text}</span>`}<span class="muted">· ${timeFmt(m.start)}</span></div>
+  </div>`;
+}
+
+/* ============ aggregation ============ */
+const inB = (d, b) => { const t = d.getTime(); return t >= b.start && t <= b.end; };
+function stats(b){
+  const cl = CLICKS.filter(c => inB(c.date,b)), cv = CONVS.filter(c => inB(c.date,b)), profit = sumBy(cv,'amount');
+  return {cl, cv, clicks:cl.length, uniq:new Set(cl.map(c=>c.vid)).size, conv:cv.length, profit, cr:cl.length ? cv.length/cl.length*100 : 0, epc:cl.length ? profit/cl.length : 0};
+}
+function chartBuckets(view){
+  if(view==='weekly') return Array.from({length:12}, (_,i) => { const s = WEEK0 - (11-i)*7*DAY; return {start:s, end:s+7*DAY-1, label:shortDate(new Date(s))}; });
+  if(view==='monthly') return Array.from({length:6}, (_,i) => { const m = new Date(TODAY.getFullYear(), TODAY.getMonth()-(5-i), 1);
+    return {start:m.getTime(), end:new Date(m.getFullYear(), m.getMonth()+1, 1).getTime()-1, label:m.toLocaleDateString('en-US',{month:'short'}) + " '" + String(m.getFullYear()).slice(2)}; });
+  return Array.from({length:30}, (_,i) => { const s = SOD - (29-i)*DAY; return {start:s, end:s+DAY-1, label:shortDate(new Date(s))}; });
+}
+function bestBy(keyFn, labelFn){
+  const g = new Map();
+  CONVS.forEach(c => { const k = keyFn(c.date), v = g.get(k) || {k, profit:0, conv:0}; v.profit += c.amount; v.conv++; g.set(k, v); });
+  const best = [...g.values()].sort((a,b) => b.profit-a.profit)[0];
+  return best ? {...best, label:labelFn(best.k)} : null;
+}
+function groupCount(rows, key){ const m = {}; rows.forEach(r => m[r[key]] = (m[r[key]]||0) + 1); return Object.entries(m).sort((a,b) => b[1]-a[1]); }
+
+/* ============ dashboard ============ */
+const state = {tp:{}, view:'daily', metric:'clicks', clicks:{range:'today'}, conv:{range:'today'}, offers:{q:'', trend:'all'}, sched:{league:'all', date:'all'}, links:{camp:'all'}, bill:{q:'', method:'all', range:'all'}, ar:60};
+
+function renderDashboard(){
+  const bal = balance(), last30 = {start:SOD-29*DAY, end:NOW}, s30 = stats(last30);
+  const periods = [
+    {label:'Today', b:{start:SOD, end:NOW}, uniq:true, tone:'solid', g:'radial-gradient(130% 120% at 100% 0%,#123d22 0%,#0b0b0c 60%)'},
+    {label:'Yesterday', b:{start:SOD-DAY, end:SOD-1}, uniq:true, tone:'plain', c:'var(--brand-d)'},
+    {label:'This week', b:{start:WEEK0, end:NOW}, tone:'plain', c:'var(--brand-d)'},
+    {label:'Last week', b:{start:WEEK0-7*DAY, end:WEEK0-1}, tone:'plain', c:'var(--brand-d)'},
+    {label:'This month', b:{start:MONTH0, end:NOW}, tone:'plain', c:'var(--brand-d)'},
+  ].map(p => ({...p, s:stats(p.b)}));
+  const hot = OFFERS.filter(o => o.trend==='hot');
+
+  $('#page').innerHTML = `
+    <section class="card notice">
+      <div>
+        <div class="notice-h">${icon('info')}Important update for affiliates</div>
+        <div class="notice-date">October 9, 2026</div>
+        <p>Dear affiliates,</p>
+        <p>We’ve updated our interface, expanded our streaming sources and integrated three additional payment gateways to help you never miss a conversion.</p>
+        <p>We encourage you to start sending traffic and see the results for yourself.</p>
+        <div class="join"><span>Join our team for more info</span><a class="btn" href="https://t.me/" target="_blank" rel="noopener">${icon('send')}Join our team</a></div>
+      </div>
+      <div class="notice-side">
+        <div class="notice-h">${icon('wallet')}Commission status</div>
+        <div class="ins" id="commission"></div>
+      </div>
+    </section>
+
+    <section class="card pay-row">
+      <div class="pr-title"><span class="hic" style="--h:var(--brand-d);--hs:var(--brand-s)">${icon('wallet')}</span><div><b>Payment notice</b><small>Updated payment schedule</small></div></div>
+      <ul class="pr-sched">
+        <li>Earnings from the <b>1st–15th</b> are paid between the <b>22nd–25th</b>.</li>
+        <li>Earnings from the <b>16th–30th</b> are paid between the <b>7th–10th</b>.</li>
+      </ul>
+      <div class="pr-methods"><small>Accepted payment methods</small><div>${PAYS.map(p => `<span>${p}</span>`).join('')}</div></div>
+      <div class="pr-next">${icon('calendar')}<div><small>Next payout</small><b>${nextPayout()}</b></div></div>
+    </section>
+
+    <section class="periods sec">
+      ${periods.map(p => `<div class="card pcard ${p.tone}" style="${p.g ? `--pg:${p.g}` : `--pc:${p.c}`}">
+        <div class="pc-h">${icon('calendar')}${p.label}</div>
+        <div class="pc-row"><span>Clicks</span><b class="num">${fmt(p.s.clicks)}</b></div>
+        ${p.uniq ? `<div class="pc-row"><span class="vis">${icon('pin')}Unique visitors</span><b class="num">${fmt(p.s.uniq)}</b></div>` : ''}
+        <div class="pc-row"><span>Conversions</span><b class="num">${fmt(p.s.conv)}</b></div>
+        <div class="pc-profit"><span>Profit</span><b class="num">${money(p.s.profit)}</b></div>
+      </div>`).join('')}
+    </section>
+
+    <section class="summary sec">
+      <a class="card scard" href="#clicks" style="--sc:var(--indigo);--sc-s:var(--indigo-s)"><div class="t">Clicks <span class="ic">${icon('cursor')}</span></div><div class="v num">${fmt(s30.clicks)}</div><div class="f">Last 30 days</div></a>
+      <a class="card scard" href="#conversions" style="--sc:var(--emerald);--sc-s:var(--emerald-s)"><div class="t">Conversions <span class="ic">${icon('check')}</span></div><div class="v num">${fmt(s30.conv)}</div><div class="f">Last 30 days</div></a>
+      <div class="card scard" style="--sc:var(--gold);--sc-s:var(--gold-s)"><div class="t">Conversion rate <span class="ic">${icon('percent')}</span></div><div class="v num">${s30.cr.toFixed(2)}%</div><div class="f">EPC <b>${money(s30.epc)}</b></div></div>
+      <a class="card scard" href="#billing" style="--sc:var(--violet);--sc-s:var(--violet-s)"><div class="t">Total balance <span class="ic">${icon('wallet')}</span></div><div class="v num">${money(bal.current)}</div><div class="f">Paid <b>${money(bal.paid)}</b></div></a>
+    </section>
+
+    <section class="card sec">
+      <div class="card-head"><div><h2><span class="hic" style="--h:var(--indigo);--hs:var(--indigo-s)">${icon('calendar')}</span>Upcoming matches</h2></div><a class="btn sm" href="#schedules">More ${icon('chev')}</a></div>
+      <div class="matches">${MATCHES.filter(m => !isLive(m)).slice(0,10).map(matchCard).join('')}</div>
+    </section>
+
+    <section class="card sec">
+      <div class="card-head" style="padding-bottom:12px"><div><h2><span class="hic" style="--h:var(--gold);--hs:var(--gold-s)">${icon('flame')}</span>Hot campaigns</h2></div><a class="btn sm" href="#campaign">All campaigns ${icon('chev')}</a></div>
+      <div id="hotList">${hot.map(o => `<div class="hot-row" data-id="${o.id}">
+        <div class="t"><b>${esc(o.title)}</b>${trendTag(o.trend)}<small>${icon('calendar')}${dateFmt(o.start)} – ${dateFmt(o.end)}</small></div>
+        <span class="comm"><b>${commShort(o)}</b> ${o.commType==='percent'?'of sale':'per conv.'}</span>
+        <a class="btn sm primary" href="#campaign/${o.id}">Promote</a>
+      </div>`).join('')}</div>
+    </section>
+
+    <section class="card sec">
+      <div class="card-head" style="padding-bottom:14px">
+        <div><h2><span class="hic" style="--h:var(--indigo);--hs:var(--indigo-s)">${icon('chart')}</span>Performance overview</h2></div>
+        <label class="viewby">View by <select class="sel sm" id="viewBy">${[['daily','Daily'],['weekly','Weekly'],['monthly','Monthly']].map(([k,l]) => `<option value="${k}" ${state.view===k?'selected':''}>${l}</option>`).join('')}</select></label>
+      </div>
+      <div class="mtabs" id="mtabs"></div>
+      <div class="chart-wrap"><svg id="chart"></svg><div class="tip" id="tip"></div></div>
+    </section>
+
+    <section class="geo sec">
+      <div class="card">
+        <div class="card-head"><div><h2><span class="hic" style="--h:var(--indigo);--hs:var(--indigo-s)">${icon('globe')}</span>Click &amp; conversion heatmap</h2><p>Last 30 days</p></div></div>
+        <div id="worldMap"></div>
+        <div class="map-legend">Fewer clicks <i></i> More clicks</div>
+      </div>
+      <div class="card">
+        <div class="card-head" style="padding-bottom:6px"><div><h2><span class="hic" style="--h:var(--gold);--hs:var(--gold-s)">${icon('trophy')}</span>Top performing countries</h2><p>Last 30 days</p></div></div>
+        <div class="table-wrap" id="countryTable"></div>
+      </div>
+    </section>
+
+    <section class="split sec">
+      <div class="card"><div class="card-head"><div><h2><span class="hic" style="--h:var(--emerald);--hs:var(--emerald-s)">${icon('device')}</span>Device breakdown</h2><p>Last 7 days</p></div></div><div class="breakdown" id="devBox"></div></div>
+      <div class="card"><div class="card-head"><div><h2><span class="hic" style="--h:var(--violet);--hs:var(--violet-s)">${icon('monitor')}</span>Operating systems</h2><p>Last 7 days</p></div></div><div class="breakdown" id="osBox"></div></div>
+    </section>
+
+    <section class="sec" style="margin-bottom:64px">
+      <div class="card"><div class="card-head"><div><h2><span class="hic" style="--h:var(--violet);--hs:var(--violet-s)">${icon('spark')}</span>Performance insights</h2></div></div><div class="ins ins-wide" id="insights"></div></div>
+    </section>`;
+
+  $('#viewBy').onchange = e => { state.view = e.target.value; drawPerformance(); };
+  drawPerformance();
+  drawCountries(stats(last30));
+  const s7 = stats({start:SOD-6*DAY, end:NOW});
+  drawBreakdown($('#devBox'), groupCount(s7.cl,'device'), s7.clicks);
+  drawBreakdown($('#osBox'), groupCount(s7.cl,'os'), s7.clicks);
+  drawInsights(s30);
+  drawCommission(bal);
+}
+
+const trendTag = t => TRENDS[t] ? `<span class="ttag t-${t}">${icon(TRENDS[t].icon)}${TRENDS[t].label}</span>` : '';
+
+function drawPerformance(){
+  const M = [
+    {k:'clicks', label:'Clicks', color:'#18181b', f:v => fmt(v)},
+    {k:'conv', label:'Conversions', color:'#1fd65f', f:v => fmt(v)},
+    {k:'profit', label:'Profit', color:'#0e9f45', f:v => money(v)},
+    {k:'cr', label:'Conversion rate', color:'#a1a1aa', f:v => v.toFixed(2)+'%'},
+  ];
+  const bk = chartBuckets(state.view), rows = bk.map(b => { const s = stats(b); return {label:b.label, clicks:s.clicks, conv:s.conv, profit:s.profit, cr:s.cr}; });
+  const tot = stats({start:bk[0].start, end:bk.at(-1).end}), totals = {clicks:tot.clicks, conv:tot.conv, profit:tot.profit, cr:tot.cr};
+  $('#mtabs').innerHTML = M.map(m => `<button class="mtab ${state.metric===m.k?'on':''}" data-m="${m.k}" style="--c:${m.color}"><span><i style="background:${m.color}"></i>${m.label}</span><b class="num">${m.f(totals[m.k])}</b></button>`).join('');
+  $$('#mtabs .mtab').forEach(b => b.onclick = () => { state.metric = b.dataset.m; drawPerformance(); });
+
+  const svg = $('#chart'), m = M.find(x => x.k===state.metric), vals = rows.map(r => r[m.k]);
+  const W = svg.clientWidth || 900, H = 280, pad = {l:52, r:10, t:14, b:28}, iw = W-pad.l-pad.r, ih = H-pad.t-pad.b, n = rows.length, colW = iw/n;
+  const barW = Math.max(4, Math.min(34, colW*0.6));
+  const raw = Math.max(m.k==='cr' ? 0.5 : 1, ...vals), p10 = Math.pow(10, Math.floor(Math.log10(raw))), q = raw/p10;
+  const max = (q<=1?1:q<=2?2:q<=2.5?2.5:q<=5?5:10)*p10;
+  const axis = v => m.k==='profit' ? '$'+(v>=1000 ? (v/1000).toFixed(1)+'k' : +v.toFixed(2)) : m.k==='cr' ? +v.toFixed(2)+'%' : v>=1000 ? (v/1000).toFixed(1)+'k' : +v.toFixed(1);
+  let g = `<rect id="hl" y="${pad.t}" width="${colW}" height="${ih}" fill="#f3f4f6" rx="4" visibility="hidden"/>`;
+  for(let k=0;k<=4;k++){ const y = pad.t + ih - ih*k/4; g += `<line x1="${pad.l}" x2="${W-pad.r}" y1="${y}" y2="${y}" stroke="#eef0f3"/><text x="${pad.l-8}" y="${y+4}" text-anchor="end" font-size="11" fill="#9ca3af">${axis(max*k/4)}</text>`; }
+  const step = Math.ceil(n/(W<560 ? 5 : 10));
+  rows.forEach((r,i) => {
+    const x = pad.l + i*colW, h = Math.max(r[m.k]>0 ? 2 : 0, r[m.k]/max*ih);
+    g += `<rect x="${(x+(colW-barW)/2).toFixed(1)}" y="${(pad.t+ih-h).toFixed(1)}" width="${barW.toFixed(1)}" height="${h.toFixed(1)}" rx="3" fill="${m.color}" opacity=".88"/>`;
+    if((n-1-i)%step===0) g += `<text x="${x+colW/2}" y="${H-8}" text-anchor="middle" font-size="11" fill="#9ca3af">${r.label}</text>`;
+  });
+  g += `<rect id="hit" x="${pad.l}" y="${pad.t}" width="${iw}" height="${ih}" fill="transparent"/>`;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.innerHTML = g;
+  const tip = $('#tip'), hl = $('#hl');
+  $('#hit').onmousemove = e => {
+    const rect = svg.getBoundingClientRect(), i = Math.max(0, Math.min(n-1, Math.floor(((e.clientX-rect.left)/rect.width*W - pad.l)/colW))), r = rows[i];
+    hl.setAttribute('x', pad.l + i*colW); hl.setAttribute('visibility','visible');
+    tip.innerHTML = `<span>${state.view==='weekly' ? 'Week of ' : ''}${r.label}</span>` + M.map(x => `<div class="row"><i style="background:${x.color}"></i>${x.label}<b>${x.f(r[x.k])}</b></div>`).join('');
+    tip.style.left = Math.min(Math.max((pad.l+(i+.5)*colW)/W*rect.width + 18, 100), rect.width-90) + 'px'; tip.style.top = (e.clientY-rect.top+12) + 'px'; tip.style.opacity = 1;
+  };
+  $('#hit').onmouseleave = () => { tip.style.opacity = 0; hl.setAttribute('visibility','hidden'); };
+}
+
+function drawCountries(s){
+  const by = {};
+  s.cl.forEach(c => (by[c.country] ||= {code:c.country, clicks:0, conv:0, profit:0}).clicks++);
+  s.cv.forEach(c => { const x = by[c.country] ||= {code:c.country, clicks:0, conv:0, profit:0}; x.conv++; x.profit += c.amount; });
+  const list = Object.values(by).sort((a,b) => b.profit-a.profit || b.clicks-a.clicks), maxP = Math.max(1, ...list.map(x => x.profit));
+  $('#countryTable').innerHTML = `<table>
+    <thead><tr><th>Rank</th><th>Country</th><th class="r">Clicks</th><th class="r">Conv.</th><th class="r">Profit</th><th class="r">CR</th></tr></thead>
+    <tbody>${list.slice(0,8).map((x,i) => `<tr class="static">
+      <td><span class="rank ${i<3 ? 'r'+(i+1) : ''}">${i+1}</span></td>
+      <td><span class="cc">${x.code}</span>${COUNTRY_NAME[x.code]}</td>
+      <td class="r"><div class="mini"><span class="num">${fmt(x.clicks)}<small>${(x.clicks/s.clicks*100).toFixed(1)}%</small></span><div class="bar"><i style="width:${x.clicks/s.clicks*100}%"></i></div></div></td>
+      <td class="r num">${x.conv}</td>
+      <td class="r"><div class="mini"><span class="num">${money(x.profit)}</span><div class="bar"><i style="width:${x.profit/maxP*100}%;background:var(--gold-b)"></i></div></div></td>
+      <td class="r num">${x.clicks ? (x.conv/x.clicks*100).toFixed(2) : '0.00'}%</td>
+    </tr>`).join('') || `<tr class="empty-row"><td colspan="6">No traffic yet.</td></tr>`}</tbody></table>`;
+  drawMap(list);
+}
+function drawMap(list){
+  const el = $('#worldMap'); if(!el) return;
+  if(typeof window.jsVectorMap !== 'function'){ el.innerHTML = '<div class="map-off">The map needs an internet connection to load.</div>'; return; }
+  try {
+    const values = {}; list.forEach(x => values[x.code] = x.clicks);
+    new jsVectorMap({
+      selector:'#worldMap', map:'world', zoomButtons:false, zoomOnScroll:false,
+      regionStyle:{initial:{fill:'#eef0f3', stroke:'#fff', strokeWidth:.5}, hover:{fillOpacity:.8, cursor:'default'}},
+      visualizeData:{scale:['#dbe7fd','#1d4ed8'], values},
+      onRegionTooltipShow(event, tooltip, code){
+        const x = list.find(c => c.code===code);
+        if(x) tooltip.text(`${tooltip.text()} · ${fmt(x.clicks)} clicks · ${x.conv} conv.`);
+      },
+    });
+  } catch(err){ el.innerHTML = '<div class="map-off">The map couldn’t be loaded.</div>'; }
+}
+function drawBreakdown(el, entries, total){
+  const colors = ['#18181b','#1fd65f','#0e9f45','#71717a','#a7f3c4','#d4d4d8'];
+  const R = 58, C = 2*Math.PI*R; let off = 0;
+  const segs = entries.map(([,v],i) => { const len = v/total*C, s = `<circle cx="75" cy="75" r="${R}" fill="none" stroke="${colors[i%6]}" stroke-width="18" stroke-dasharray="${Math.max(0,len-1.5)} ${C}" stroke-dashoffset="${-off}" transform="rotate(-90 75 75)"/>`; off += len; return s; }).join('');
+  el.innerHTML = total ? `<svg class="donut" viewBox="0 0 150 150">${segs}<text x="75" y="71" text-anchor="middle" font-size="11" fill="#6b7280">Clicks</text><text x="75" y="91" text-anchor="middle" font-size="19" font-weight="600" fill="#111827">${fmt(total)}</text></svg>
+    <div>${entries.map(([k,v],i) => `<div class="bd-row"><div class="bd-top"><span><i class="dot" style="background:${colors[i%6]}"></i>${esc(k)}</span><b class="num">${fmt(v)}<span>${(v/total*100).toFixed(1)}%</span></b></div>
+      <div class="bar"><i style="width:${v/total*100}%;background:${colors[i%6]}"></i></div></div>`).join('')}</div>` : '<p class="muted">No clicks in the last 7 days.</p>';
+}
+function drawInsights(s30){
+  const day = bestBy(d => isoDay(d), k => dateFmt(new Date(k+'T12:00')));
+  const week = bestBy(d => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() - ((d.getDay()+6)%7)*DAY, k => `Week of ${dateFmt(new Date(k))}`);
+  const month = bestBy(d => `${d.getFullYear()}-${pad2(d.getMonth()+1)}`, k => new Date(k+'-01T12:00').toLocaleDateString('en-US',{month:'long', year:'numeric'}));
+  const best = (title, x, c) => `<div class="best" style="--bc:${c}"><div><small>${title}</small><b>${x ? x.label : '—'}</b></div><div class="r"><b class="num">${x ? money(x.profit) : '$0.00'}</b><small>${x ? x.conv : 0} conversion${x && x.conv===1 ? '' : 's'}</small></div></div>`;
+  $('#insights').innerHTML = `<h3>Best performing periods</h3><div class="bests">${best('Best day', day, 'var(--gold-b)')}${best('Best week', week, 'var(--indigo)')}${best('Best month', month, 'var(--violet)')}</div>
+    <h3>Daily averages · last 30 days</h3>
+    <div class="avgs"><div><small>Clicks</small><b class="num">${fmt(Math.round(s30.clicks/30))}</b></div><div><small>Conversions</small><b class="num">${(s30.conv/30).toFixed(1)}</b></div><div><small>Profit</small><b class="num">${money(s30.profit/30)}</b></div></div>`;
+}
+function drawCommission(bal){
+  $('#commission').innerHTML = `
+    <div class="cstat">
+      <div class="pend"><small>Pending</small><b class="num" style="color:var(--amber)">${money(bal.pending)}</b><small>${fmt(bal.pendingN)} orders</small></div>
+      <div class="rel"><small>Released</small><b class="num" style="color:var(--green)">${money(bal.released)}</b><small>${fmt(bal.releasedN)} orders</small></div>
+    </div>
+    <h3>All-time statistics</h3>
+    <div class="kv"><span>All-time profit</span><b class="num">${money(bal.earned)}</b></div>
+    <div class="kv"><span>Total paid</span><b class="num">${money(bal.paid)}</b></div>
+    <div class="kv total"><span>Current balance</span><b class="num">${money(bal.current)}</b></div>`;
+}
+
+/* ============ campaign ============ */
+const campId = () => +location.hash.slice(1).split('/')[1] || null;
+function renderCampaignRoute(){ const id = campId(); id ? renderPromo(id) : renderCampaign(); }
+
+function renderCampaign(){
+  const s = state.offers;
+  $('#page').innerHTML = `
+    <div class="page-head"><div><h1>Campaigns</h1><div class="meta">${OFFERS.length} campaigns found</div></div></div>
+    <section class="stats3">
+      <div class="card scard" style="--sc:var(--ink);--sc-s:#f2f2f3"><div class="t">Total campaigns <span class="ic">${icon('flag')}</span></div><div class="v num">${OFFERS.length}</div><div class="f">Active campaigns</div></div>
+      <div class="card scard" style="--sc:#d92d20;--sc-s:#fdeceb"><div class="t">Hot campaigns <span class="ic">${icon('flame')}</span></div><div class="v num">${OFFERS.filter(o => o.trend==='hot').length}</div><div class="f">Trending now</div></div>
+      <div class="card scard" style="--sc:var(--brand-d);--sc-s:var(--brand-s)"><div class="t">Evergreen <span class="ic">${icon('spark')}</span></div><div class="v num">${OFFERS.filter(o => o.trend==='evergreen').length}</div><div class="f">Long-term offers</div></div>
+    </section>
+    <div class="card"><div class="toolbar" style="border-bottom:0">
+      <label class="field grow" style="max-width:none">${icon('search')}<input id="oQ" placeholder="Search campaigns by title" value="${esc(s.q)}"></label>
+      <select class="sel" id="oTrend"><option value="all">All trends</option>${Object.entries(TRENDS).map(([k,t]) => `<option value="${k}" ${s.trend===k?'selected':''}>${t.label}</option>`).join('')}</select>
+    </div></div>
+    <div class="cgrid" id="oGrid"></div>`;
+  $('#oQ').oninput = e => { s.q = e.target.value.trim().toLowerCase(); drawOffers(); };
+  $('#oTrend').onchange = e => { s.trend = e.target.value; drawOffers(); };
+  drawOffers();
+}
+function drawOffers(){
+  const s = state.offers;
+  const list = OFFERS.filter(o => (!s.q || o.title.toLowerCase().includes(s.q)) && (s.trend==='all' || o.trend===s.trend));
+  $('#oGrid').innerHTML = list.length ? list.map(o => `<article class="card ccard ${o.trend==='hot'?'is-hot':''}" data-id="${o.id}">
+      <div class="ccover" style="--cv:${o.color}">
+        ${o.trend==='hot' ? `<span class="cflame" title="High-performing campaign">${icon('flame')}</span>` : ''}
+        <span class="ccover-t">${esc(o.title)}</span>
+        <span class="cnum">#${String(o.id).padStart(3,'0')}</span>
+        <span class="pill ok cstatus">Active</span>
+      </div>
+      <div class="cbody">
+        <h3 style="margin:0;font-size:15px;font-weight:600">${esc(o.title)}</h3>
+        <div class="csub">${esc(o.sub)}</div>
+        <div>${trendTag(o.trend)}</div>
+      </div>
+      <div class="cfoot"><a class="btn primary" href="#campaign/${o.id}">${icon('link')}Promote</a></div>
+    </article>`).join('')
+    : `<div class="card empty" style="grid-column:1/-1"><div class="ic">${icon('flag')}</div><h3>No campaigns found</h3><p>Try a different search or trend.</p></div>`;
+  $('#oGrid').onclick = e => { const c = e.target.closest('.ccard'); if(c && !e.target.closest('a')) location.hash = `campaign/${c.dataset.id}`; };
+}
+
+/* promotion links for one campaign: list, copy / edit / delete, create with a domain + custom coupon */
+function renderPromo(id){
+  const o = offerById(id);
+  if(!o){
+    $('#page').innerHTML = `<a class="back" href="#campaign">${icon('chevl')}All campaigns</a>
+      <div class="card empty"><div class="ic">${icon('flag')}</div><h3>Campaign not found</h3><a class="btn" href="#campaign">Back to campaigns</a></div>`;
+    return;
+  }
+  $('#page').innerHTML = `
+    <a class="back" href="#campaign">${icon('chevl')}All campaigns</a>
+    <div class="page-head"><div><h1>Promotion links</h1><div class="meta">${esc(o.title)} · ${trendTag(o.trend)} · ${commText(o)}</div></div></div>
+    <div class="card">
+      <div class="tipbox">${icon('info')}<div><b>Select domains carefully for better conversions</b>
+        <p>We have multiple domains available. Choose the one that best suits your audience to maximize your earnings and conversions.</p></div></div>
+      <div id="plTable"></div>
+      <form class="create-link" id="clForm" novalidate>
+        <div class="cl-h">${icon('plus')}Create link</div>
+        <div class="cl-row" id="clRow">
+          <select name="domain" aria-label="Domain">${DOMAINS.map(d => `<option>${d}</option>`).join('')}</select>
+          <input name="code" placeholder="Custom coupon (optional)" autocomplete="off" aria-label="Custom coupon">
+          <button class="btn" type="submit">${icon('plus')}Create</button>
+        </div>
+        <span class="cl-err" id="clErr"></span>
+      </form>
+    </div>`;
+  drawPromoTable(o);
+  $('#clForm').onsubmit = e => {
+    e.preventDefault();
+    const f = e.target.elements, code = f.code.value.trim() || genCode();
+    const err = codeError(code, null);
+    $('#clRow').classList.toggle('bad', !!err); $('#clErr').textContent = err;
+    if(err) return f.code.focus();
+    const link = {id:Math.max(1535, ...MY_LINKS.map(l => l.id)) + 1, offer:o.id, code, domain:f.domain.value, created:new Date(), status:'active'};
+    MY_LINKS.unshift(link); updateBadges();
+    f.code.value = ''; drawPromoTable(o);
+    copyText(linkUrl(link), `Link created and copied: ${linkUrl(link).replace('https://','')}`);
+  };
+  $('#clForm').elements.code.oninput = () => { $('#clRow').classList.remove('bad'); $('#clErr').textContent = ''; };
+}
+function genCode(){
+  const base = ME.name.split(' ')[0].toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,5) || 'AFF';
+  let c; do { c = base + Math.floor(10 + Math.random()*90); } while(MY_LINKS.some(l => l.code.toLowerCase()===c.toLowerCase()));
+  return c;
+}
+function codeError(code, self){
+  if(!/^[A-Za-z0-9_-]{3,20}$/.test(code)) return 'Use 3–20 letters, numbers, - or _ (no spaces).';
+  if(MY_LINKS.some(l => l !== self && l.code.toLowerCase()===code.toLowerCase())) return 'This coupon code is already taken.';
+  return '';
+}
+function drawPromoTable(o){
+  const rows = MY_LINKS.filter(l => l.offer===o.id);
+  pagedTable($('#plTable'), 'promo', [
+    {h:'No', v:(l,i) => `<span class="muted num">${String(i+1).padStart(2,'0')}</span>`},
+    {h:'ID', v:l => `<span class="num">${l.id}</span>`},
+    {h:'Coupon code', v:l => `<span class="code">${esc(l.code)}</span><small class="muted" style="display:block;margin-top:3px">${esc(linkUrl(l).replace('https://',''))}</small>`},
+    {h:'Created on', v:l => dtFmt(l.created)},
+    {h:'', r:1, v:(l,i) => `<div class="row-acts">
+      <button class="rbtn" data-pa="copy" data-i="${i}" title="Copy link">${icon('copy')}</button>
+      <button class="rbtn" data-pa="edit" data-i="${i}" title="Edit">${icon('edit')}</button>
+      <button class="rbtn del" data-pa="del" data-i="${i}" title="Delete">${icon('trash')}</button></div>`},
+  ], rows, 'No links for this campaign yet. Create one below.');
+  bindLinkActions($('#plTable'), rows, () => drawPromoTable(o));
+}
+const linkActionsCell = (l, i) => `<div class="row-acts">
+  <button class="rbtn" data-pa="copy" data-i="${i}" title="Copy link">${icon('copy')}</button>
+  <button class="rbtn" data-pa="edit" data-i="${i}" title="Edit">${icon('edit')}</button>
+  <button class="rbtn del" data-pa="del" data-i="${i}" title="Delete">${icon('trash')}</button></div>`;
+// copy / edit / delete for a table of links (used by Promotion links and My Links)
+function bindLinkActions(el, rows, redraw){
+  el.onclick = e => {
+    const b = e.target.closest('[data-pa]'); if(!b) return;
+    const l = rows[+b.dataset.i];
+    if(b.dataset.pa==='copy') return copyText(linkUrl(l), 'Link copied');
+    if(b.dataset.pa==='edit') return openModalForm({
+      title:'Edit link', sub:`ID ${l.id} · ${offerById(l.offer).title}`, save:'Save changes',
+      html:`<label>Domain<select name="domain">${DOMAINS.map(d => `<option ${d===l.domain?'selected':''}>${d}</option>`).join('')}</select></label>
+        <label>Coupon code<input name="code" value="${esc(l.code)}" autocomplete="off"><span class="hint"></span></label>`,
+      onSave:(v, mark) => {
+        const err = codeError(v.code, l);
+        if(mark('code', !!err, err)) return false;
+        Object.assign(l, {code:v.code, domain:v.domain}); toast('Link updated'); redraw();
+      },
+    });
+    openModalForm({
+      title:'Delete this link?', sub:`${linkUrl(l).replace('https://','')} will stop tracking new clicks. Past clicks and earnings are kept.`,
+      html:'', save:'Delete', danger:true,
+      onSave:() => { MY_LINKS = MY_LINKS.filter(x => x !== l); updateBadges(); toast('Link deleted'); redraw(); },
+    });
+  };
+}
+function showLink(l, title){
+  openModalForm({
+    title, sub:`${commText(offerById(l.offer))} · share this link or coupon code with your audience.`, cancel:'Done',
+    html:`<label class="full">Tracking link<div class="copy-field"><input readonly value="${linkUrl(l)}"><button type="button" class="btn" data-cp="${linkUrl(l)}">${icon('copy')}Copy</button></div></label>
+      <label class="full">Coupon code<div class="copy-field"><input readonly value="${esc(l.code)}"><button type="button" class="btn" data-cp="${esc(l.code)}">${icon('copy')}Copy</button></div></label>`,
+  });
+  $$('#mForm [data-cp]').forEach(b => b.onclick = () => copyText(b.dataset.cp, 'Copied'));
+}
+
+/* ============ schedules ============ */
+function renderSchedules(){
+  const s = state.sched, leagues = new Set(MATCHES.map(m => m.league));
+  const live = MATCHES.filter(isLive).length;
+  $('#page').innerHTML = `
+    <div class="page-head"><div><h1>Schedules</h1><div class="meta">Live and upcoming matches across ${leagues.size} leagues · <b class="num">${MATCHES.length}</b> matches</div></div></div>
+    <section class="stats3">
+      <div class="card scard" style="--sc:#b42318;--sc-s:#fdeceb"><div class="t">Live now <span class="ic">${icon('spark')}</span></div><div class="v num">${live}</div><div class="f">Matches in progress</div></div>
+      <div class="card scard" style="--sc:var(--brand-d);--sc-s:var(--brand-s)"><div class="t">Upcoming <span class="ic">${icon('calendar')}</span></div><div class="v num">${MATCHES.length - live}</div><div class="f">Next 7 days</div></div>
+      <div class="card scard" style="--sc:var(--ink);--sc-s:#f2f2f3"><div class="t">Showing <span class="ic">${icon('eye')}</span></div><div class="v num" id="schShowing">0</div><div class="f">After filters applied</div></div>
+    </section>
+    <div class="card sch-filters">
+      <div class="fl-label">League</div><div class="chips" id="lgChips"></div>
+      <div class="fl-label">Date</div><div class="chips" id="dtChips"></div>
+    </div>
+    <div class="mgrid" id="schGrid"></div>`;
+  drawSchedules();
+}
+function drawSchedules(){
+  const s = state.sched;
+  const dayKey = m => isLive(m) ? isoDay(TODAY) : isoDay(m.start);
+  const byLeague = MATCHES.filter(m => s.league==='all' || m.league===s.league);
+  const list = byLeague.filter(m => s.date==='all' || dayKey(m)===s.date);
+  // league chips (count across all dates), date chips (count for the chosen league)
+  const lgCount = k => MATCHES.filter(m => m.league===k).length;
+  $('#lgChips').innerHTML = `<button class="chip-btn ${s.league==='all'?'on':''}" data-lg="all">All leagues</button>` +
+    Object.keys(LEAGUES).filter(k => lgCount(k)).map(k => `<button class="chip-btn ${s.league===k?'on':''}" data-lg="${k}"><i class="lg-dot" style="background:${LEAGUE_COLORS[k]}"></i>${LEAGUES[k].name}<span class="cnt">${lgCount(k)}</span></button>`).join('');
+  const days = [...new Set(byLeague.map(dayKey))].sort();
+  const dayName = d => d===isoDay(TODAY) ? 'Today' : d===isoDay(new Date(SOD+DAY)) ? 'Tomorrow' : new Date(d+'T12:00').toLocaleDateString('en-US',{weekday:'short', month:'short', day:'numeric'});
+  if(s.date!=='all' && !days.includes(s.date)) s.date = 'all';
+  $('#dtChips').innerHTML = `<button class="chip-btn ${s.date==='all'?'on':''}" data-dt="all">All dates</button>` +
+    days.map(d => `<button class="chip-btn ${s.date===d?'on':''}" data-dt="${d}">${dayName(d)}<span class="cnt">${byLeague.filter(m => dayKey(m)===d).length}</span></button>`).join('');
+  $('#schShowing').textContent = list.length;
+  $('#schGrid').innerHTML = list.length ? list.map(matchCard).join('')
+    : `<div class="card empty" style="grid-column:1/-1"><div class="ic">${icon('calendar')}</div><h3>No matches</h3><p>Try another league or date.</p></div>`;
+  $$('#lgChips [data-lg]').forEach(b => b.onclick = () => { s.league = b.dataset.lg; drawSchedules(); });
+  $$('#dtChips [data-dt]').forEach(b => b.onclick = () => { s.date = b.dataset.dt; drawSchedules(); });
+}
+
+/* ============ date ranges (reports, links) ============ */
+const RANGE_OPTS = {all:'All time', today:'Today', yesterday:'Yesterday', '7d':'Last 7 days', '30d':'Last 30 days', '90d':'Last 90 days', '6m':'Last 6 months', custom:'Custom range…'};
+const rangeLabel = v => {
+  const a = new Date(v.from+'T12:00'), b = new Date(v.to+'T12:00'), o = {month:'short', day:'numeric'}, y = {...o, year:'numeric'};
+  if(v.from===v.to) return a.toLocaleDateString('en-US', y);
+  return `${a.toLocaleDateString('en-US', a.getFullYear()===b.getFullYear() ? o : y)} – ${b.toLocaleDateString('en-US', y)}`;
+};
+function bounds(f){
+  switch(f.range){
+    case 'today': return {start:SOD, end:NOW};
+    case 'yesterday': return {start:SOD-DAY, end:SOD-1};
+    case '7d': return {start:SOD-6*DAY, end:NOW};
+    case '30d': return {start:SOD-29*DAY, end:NOW};
+    case '90d': return {start:SOD-89*DAY, end:NOW};
+    case '6m':  return {start:new Date(TODAY.getFullYear(), TODAY.getMonth()-6, TODAY.getDate()).getTime(), end:NOW};
+    case 'custom': return {start:new Date(f.custom.from+'T00:00').getTime(), end:new Date(f.custom.to+'T23:59:59.999').getTime()};
+    default: return {start:0, end:Infinity};
+  }
+}
+const inRange = (d, f) => inB(d, bounds(f));
+const rangeSlug = f => f.range==='custom' ? `${f.custom.from}_to_${f.custom.to}` : `${f.range}-${isoDay(new Date())}`;
+let RP = null;
+function closeRangePicker(cancelled){ if(!RP) return; const {el, onCancel, off} = RP; RP = null; el.remove(); off(); if(cancelled && onCancel) onCancel(); }
+function openRangePicker(anchor, cur, onApply, onCancel){
+  closeRangePicker(true);
+  const today = isoDay(TODAY), el = document.createElement('div'), firstOf = (y, m) => isoDay(new Date(y, m, 1));
+  const quick = {'14':[isoDay(new Date(NOW-13*DAY)), today, 'Last 14 days'], '90':[isoDay(new Date(NOW-89*DAY)), today, 'Last 90 days'],
+    tm:[firstOf(TODAY.getFullYear(), TODAY.getMonth()), today, 'This month'], lm:[firstOf(TODAY.getFullYear(), TODAY.getMonth()-1), isoDay(new Date(TODAY.getFullYear(), TODAY.getMonth(), 0)), 'Last month']};
+  el.className = 'rpop'; el.setAttribute('role','dialog'); el.setAttribute('aria-label','Custom date range');
+  el.innerHTML = `<div class="rpop-h">Custom range</div><div class="rpop-q">${Object.entries(quick).map(([k,q]) => `<button type="button" data-q="${k}">${q[2]}</button>`).join('')}</div>
+    <div class="rpop-f"><label>From<input type="date" max="${today}" value="${cur?.from || isoDay(new Date(NOW-6*DAY))}"></label><label>To<input type="date" max="${today}" value="${cur?.to || today}"></label></div>
+    <div class="rpop-err" aria-live="polite"></div><div class="rpop-a"><button type="button" class="btn sm" data-x>Cancel</button><button type="button" class="btn sm primary" data-ok>Apply</button></div>`;
+  document.body.appendChild(el);
+  const r = anchor.getBoundingClientRect(), w = el.offsetWidth || 300;
+  el.style.top = (r.bottom + window.scrollY + 6) + 'px';
+  el.style.left = Math.max(8, Math.min(r.left + window.scrollX, window.scrollX + document.documentElement.clientWidth - w - 8)) + 'px';
+  const [from, to] = $$('input', el), err = $('.rpop-err', el);
+  $$('[data-q]', el).forEach(b => b.onclick = () => { [from.value, to.value] = quick[b.dataset.q]; err.textContent = ''; });
+  const ok = () => {
+    const f = from.value, t = to.value;
+    const msg = !f || !t ? 'Pick both dates' : f > t ? 'Start date must be before the end date' : t > today ? 'End date can’t be in the future' : (new Date(t) - new Date(f))/DAY > 365 ? 'Pick a range of one year or less' : '';
+    if(msg){ err.textContent = msg; return; }
+    closeRangePicker(false); onApply({from:f, to:t});
+  };
+  $('[data-ok]', el).onclick = ok; $('[data-x]', el).onclick = () => closeRangePicker(true);
+  el.addEventListener('keydown', e => { if(e.key==='Enter'){ e.preventDefault(); ok(); } });
+  const outside = e => { if(!el.contains(e.target) && !anchor.contains(e.target)) closeRangePicker(true); };
+  setTimeout(() => document.addEventListener('mousedown', outside));
+  RP = {el, onCancel, off: () => document.removeEventListener('mousedown', outside)};
+  from.focus();
+}
+function mountRange(wrap, f, keys, onChange){
+  const draw = () => {
+    wrap.innerHTML = `<select class="sel" aria-label="Date range">${keys.map(k => `<option value="${k}" ${f.range===k?'selected':''}>${RANGE_OPTS[k]}</option>`).join('')}</select>`
+      + (f.range==='custom' && f.custom ? `<button type="button" class="btn rchip" title="Change dates">${icon('calendar')}${rangeLabel(f.custom)}</button>` : '');
+    const sel = $('select', wrap), chip = $('.rchip', wrap);
+    const pick = () => openRangePicker(chip || sel, f.custom, v => { f.custom = v; f.range = 'custom'; draw(); onChange(); }, () => { sel.value = f.range; });
+    sel.onchange = () => { if(sel.value==='custom') return pick(); f.range = sel.value; draw(); onChange(); };
+    if(chip) chip.onclick = pick;
+  };
+  draw();
+}
+
+/* ============ tables + modals ============ */
+function pagerHtml(page, pages){
+  const nums = []; for(let p=1;p<=pages;p++){ if(p===1||p===pages||Math.abs(p-page)<=1) nums.push(p); else if(nums.at(-1)!=='…') nums.push('…'); }
+  return `<div class="pager"><button data-p="${page-1}" ${page===1?'disabled':''} aria-label="Previous">${icon('chevl')}</button>
+    ${nums.map(p => p==='…' ? `<span class="muted" style="padding:0 4px">…</span>` : `<button data-p="${p}" class="${p===page?'on':''}">${p}</button>`).join('')}
+    <button data-p="${page+1}" ${page===pages?'disabled':''} aria-label="Next">${icon('chev')}</button></div>`;
+}
+function pagedTable(el, key, cols, rows, emptyMsg, per=10, onRender){
+  const pages = Math.max(1, Math.ceil(rows.length/per)), page = Math.min(state.tp[key] || 1, pages);
+  const slice = rows.slice((page-1)*per, page*per), offset = (page-1)*per;
+  el.innerHTML = `<div class="table-wrap" style="margin:0"><table><thead><tr>${cols.map(c => `<th class="${c.r?'r':''}">${c.h}</th>`).join('')}</tr></thead>
+      <tbody>${slice.length ? slice.map((row,i) => `<tr class="static">${cols.map(c => `<td class="${c.r?'r num':''}">${c.v(row, offset+i)}</td>`).join('')}</tr>`).join('')
+        : `<tr class="empty-row"><td colspan="${cols.length}">${emptyMsg}</td></tr>`}</tbody></table></div>
+    ${rows.length ? `<div class="card-foot"><span>Showing ${fmt(offset+1)}–${fmt(offset+slice.length)} of ${fmt(rows.length)}</span>${pages>1 ? pagerHtml(page, pages) : ''}</div>` : ''}`;
+  $$('[data-p]', el).forEach(b => b.onclick = () => { state.tp[key] = +b.dataset.p; pagedTable(el, key, cols, rows, emptyMsg, per, onRender); });
+  $$('[data-copy]', el).forEach(b => b.onclick = () => copyText(b.dataset.copy, 'Link copied'));
+  onRender?.(page, pages);
+}
+function openModalForm({title, sub, html, save='', onSave=null, cancel='Cancel', danger=false}){
+  $('#formSave').classList.toggle('danger-btn', danger);
+  $('#formTitle').textContent = title; $('#formSub').textContent = sub || ''; $('#formSub').style.display = sub ? '' : 'none';
+  $('#mForm').innerHTML = html + '<button type="submit" hidden></button>';
+  $('#formSave').textContent = save; $('#formSave').style.display = onSave ? '' : 'none'; $('#formCancel').textContent = cancel;
+  const run = () => {
+    const v = Object.fromEntries(new FormData($('#mForm'))); Object.keys(v).forEach(k => v[k] = String(v[k]).trim());
+    const mark = (name, bad, msg) => { const l = $(`#mForm [name="${name}"]`).closest('label'); l.classList.toggle('bad', !!bad); if(msg){ const h = $('.hint', l); if(h) h.textContent = msg; } return !!bad; };
+    if(onSave(v, mark) !== false) $('#formModal').classList.remove('open');
+  };
+  $('#formSave').onclick = run; $('#mForm').onsubmit = e => { e.preventDefault(); if(onSave) run(); };
+  $('#formModal').classList.add('open');
+}
+
+/* ============ my links ============ */
+function renderLinks(){
+  const f = state.links;
+  const camps = OFFERS.filter(o => MY_LINKS.some(l => l.offer===o.id));
+  $('#page').innerHTML = `
+    <div class="page-head"><div><h1>My Links</h1><div class="meta" id="lMeta"></div></div>
+      <div class="head-actions"><button class="btn primary" id="newLink">${icon('plus')}Create link</button></div></div>
+    <div class="card">
+      <div class="toolbar">
+        <label class="viewby" style="color:var(--text-2);font-weight:500">Filter by campaign
+          <select class="sel" id="lCamp"><option value="all">All campaigns</option>${camps.map(o => `<option value="${o.id}" ${String(f.camp)===String(o.id)?'selected':''}>${esc(o.title)}</option>`).join('')}</select></label>
+      </div>
+      <div class="tipbox">${icon('info')}<div><b>Select domains carefully for better conversions</b>
+        <p>We have multiple domains available. Choose the one that best suits your audience to maximize your earnings and conversions.</p></div></div>
+      <div id="lTable"></div>
+    </div>`;
+  const draw = () => {
+    const rows = MY_LINKS.filter(l => f.camp==='all' || l.offer===+f.camp).sort((a,b) => b.created-a.created);
+    pagedTable($('#lTable'), 'links', [
+      {h:'No', v:(l,i) => `<span class="muted num">${String(i+1).padStart(2,'0')}</span>`},
+      {h:'ID', v:l => `<span class="num">${l.id}</span>`},
+      {h:'Campaign', v:l => `<a class="camp-tag" href="#campaign/${l.offer}">${esc(offerById(l.offer).title)}</a>`},
+      {h:'Coupon code', v:l => `<span class="code">${esc(l.code)}</span><small class="muted" style="display:block;margin-top:3px">${esc(l.domain)}</small>`},
+      {h:'Created on', v:l => dtFmt(l.created)},
+      {h:'', r:1, v:linkActionsCell},
+    ], rows, f.camp==='all' ? 'You haven’t created any links yet.' : 'No links for this campaign yet.', 20,
+      (page, pages) => { $('#lMeta').innerHTML = `<b class="num">${MY_LINKS.length}</b> total links · Page ${page} of ${pages}`; });
+    bindLinkActions($('#lTable'), rows, draw);
+  };
+  $('#lCamp').onchange = e => { f.camp = e.target.value; state.tp.links = 1; draw(); };
+  $('#newLink').onclick = () => openCreateLink(draw);
+  draw();
+}
+function openCreateLink(onDone){
+  openModalForm({
+    title:'Create new link', sub:'Generate a promotion link for your selected campaign.', save:'Create link',
+    html:`<div class="full tipbox" style="margin:0">${icon('info')}<div><p style="margin:0">If you leave the coupon empty, we will generate a random coupon code for you.</p></div></div>
+      <label class="full">Select campaign *<select name="offer"><option value="">— Choose a campaign —</option>${OFFERS.map(o => `<option value="${o.id}">${esc(o.title)}</option>`).join('')}</select><span class="hint">Choose a campaign</span></label>
+      <label>Domain<select name="domain">${DOMAINS.map(d => `<option>${d}</option>`).join('')}</select></label>
+      <label>Coupon code<input name="code" placeholder="Leave blank to auto-generate" autocomplete="off"><span class="hint"></span></label>`,
+    onSave:(v, mark) => {
+      const code = v.code || genCode(), err = v.code ? codeError(code, null) : '';
+      const badOffer = mark('offer', !v.offer);
+      if(mark('code', !!err, err) | badOffer) return false;
+      const link = {id:Math.max(1535, ...MY_LINKS.map(l => l.id)) + 1, offer:+v.offer, code, domain:v.domain, created:new Date(), status:'active'};
+      MY_LINKS.unshift(link); updateBadges(); onDone?.();
+      copyText(linkUrl(link), `Link created and copied: ${linkUrl(link).replace('https://','')}`);
+    },
+  });
+}
+
+/* ============ clicks / conversion (auto refresh every 60s) ============ */
+const maskIp = ip => { const p = ip.split('.'); return `${p[0]}.${p[1]}…${p[3]}`; };
+function reportPage(kind){
+  const f = state[kind], isConv = kind==='conv', key = 'r'+kind;
+  $('#page').innerHTML = `
+    <div class="page-head"><div><h1>${isConv ? 'Conversion' : 'Clicks'}</h1></div>
+      <div class="head-actions">
+        <span class="ar-pill" title="The table refreshes automatically">${icon('clock')}Auto refresh <b class="num" id="arTime">1:00</b></span>
+        <button class="btn" id="rRefresh">${icon('refresh')}Refresh</button>
+        <span class="rwrap" id="rRange"></span>
+      </div></div>
+    <div class="card">
+      <div class="toolbar"><span class="rec-badge">Total records <b class="num" id="rCount">0</b></span>
+        ${isConv ? `<span class="tb-summary" id="rSum" style="margin-left:auto"></span>` : ''}</div>
+      <div id="rTable"></div>
+    </div>`;
+  const country = c => `<span class="cc">${c.country}</span>${COUNTRY_NAME[c.country]}`;
+  const draw = () => {
+    const rows = (isConv ? CONVS : CLICKS).filter(x => inRange(x.date, f));
+    $('#rCount').textContent = fmt(rows.length);
+    if(isConv){
+      $('#rSum').innerHTML = `<b>${money(sumBy(rows,'amount'))}</b> commission`;
+      pagedTable($('#rTable'), key, [
+        {h:'No', v:(c,i) => `<span class="muted num">${String(i+1).padStart(2,'0')}</span>`},
+        {h:'Commission', v:c => `<b class="num" style="color:var(--brand-d)">${money(c.amount)}</b>`},
+        {h:'Link', v:c => `<span class="code">${esc(c.code)}</span>`},
+        {h:'Campaign', v:c => esc(offerById(c.offer).title)},
+        {h:'Country', v:country},
+        {h:'Date', v:c => dtFmt(c.date)},
+      ], rows, 'No conversions in this period.', 25);
+    } else {
+      pagedTable($('#rTable'), key, [
+        {h:'No', v:(c,i) => `<span class="muted num">${String(i+1).padStart(2,'0')}</span>`},
+        {h:'Coupon', v:c => `<span class="code">${esc(c.code)}</span>`},
+        {h:'Campaign', v:c => esc(offerById(c.offer).title)},
+        {h:'IP address', v:c => `<span class="num muted" title="${c.ip}">${maskIp(c.ip)}</span>`},
+        {h:'Device', v:c => `${c.device} <span class="muted">· ${c.os}</span>`},
+        {h:'Country', v:country},
+        {h:'Date', v:c => dtFmt(c.date)},
+      ], rows, 'No clicks in this period.', 25);
+    }
+  };
+  state.ar = 60; state.arDraw = draw;
+  $('#rRefresh').onclick = () => { state.ar = 60; draw(); tickAutoRefresh(true); toast('Updated just now'); };
+  mountRange($('#rRange'), f, ['today','yesterday','7d','30d','custom'], () => { state.tp[key] = 1; draw(); });
+  draw();
+}
+function tickAutoRefresh(paintOnly){
+  const el = $('#arTime'); if(!el) return;
+  if(!paintOnly && --state.ar <= 0){ state.ar = 60; state.arDraw?.(); }
+  el.textContent = `${Math.floor(state.ar/60)}:${pad2(state.ar%60)}`;
+}
+setInterval(() => tickAutoRefresh(false), 1000);
+
+/* ============ billing ============ */
+function renderBilling(){
+  const bal = balance();
+  $('#page').innerHTML = `<div class="page-head"><div><h1>Billing</h1></div></div>
+    <section class="stats3">
+      <div class="card scard" style="--sc:var(--ink);--sc-s:#f2f2f3"><div class="t">Total earned <span class="ic">${icon('chart')}</span></div><div class="v num">${money(bal.earned)}</div><div class="f">All-time profit since ${dateFmt(ME.joined)}</div></div>
+      <div class="card scard" style="--sc:var(--brand-d);--sc-s:var(--brand-s)"><div class="t">Total paid <span class="ic">${icon('check')}</span></div><div class="v num">${money(bal.paid)}</div><div class="f"><b>${PAYOUTS.length}</b> payments received</div></div>
+      <div class="card scard bal-card"><div class="t">Current balance <span class="ic">${icon('wallet')}</span></div><div class="v num">${money(bal.current)}</div><div class="f">Next payout <b>${nextPayout()}</b></div></div>
+    </section>
+    <div class="card">
+      <div class="toolbar">
+        <label class="field grow">${icon('search')}<input id="bQ" placeholder="Search description, reference or amount" value="${esc(state.bill.q)}"></label>
+        <span class="rwrap" id="bRange"></span>
+        <select class="sel" id="bMethod"><option value="all">All methods</option>${PAYS.map(p => `<option ${state.bill.method===p?'selected':''}>${p}</option>`).join('')}</select>
+        <span class="tb-summary" id="bSum" style="margin-left:auto"></span>
+        <button class="link-btn" id="bClear">Clear</button>
+      </div>
+      <div id="payTable"></div>
+    </div>`;
+  const f = state.bill;
+  const draw = () => {
+    const q = f.q.toLowerCase().replace(/[$,]/g,'');
+    const rows = PAYOUTS.filter(p => inRange(p.date, f) && (f.method==='all' || p.method===f.method) &&
+      (!q || [p.desc, p.ref, p.period, p.method, p.amount.toFixed(2), dateFmt(p.date)].join(' ').toLowerCase().replace(/[$,]/g,'').includes(q)));
+    const filtered = f.q || f.method!=='all' || f.range!=='all';
+    $('#bSum').innerHTML = `<b>${rows.length}</b> payment${rows.length===1?'':'s'} · <b>${money(sumBy(rows,'amount'))}</b>`;
+    $('#bClear').style.visibility = filtered ? 'visible' : 'hidden';
+    pagedTable($('#payTable'), 'pay', [
+      {h:'No', v:(p,i) => `<span class="muted num">${String(i+1).padStart(2,'0')}</span>`},
+      {h:'Duration', v:p => `<span class="date-tag">${dateFmt(p.date)}</span>`},
+      {h:'Description', v:p => `${esc(p.desc)}<small class="muted" style="display:block;margin-top:2px">${esc(p.ref)} · ${esc(p.period)}</small>`},
+      {h:'Method', v:p => `<span class="paytag">${esc(p.method)}</span>`},
+      {h:'Amount', v:p => `<span class="amt-tag num">${money(p.amount)}</span>`},
+      {h:'Action', r:1, v:(p,i) => `<button class="rbtn dl" data-inv="${i}" title="Download receipt">${icon('download')}</button>`},
+    ], rows, filtered ? 'No payments match your search or filters.' : 'No payments yet.', 15);
+    $('#payTable').onclick = e => { const b = e.target.closest('[data-inv]'); if(b) downloadInvoice(rows[+b.dataset.inv]); };
+  };
+  const reset = () => { state.tp.pay = 1; draw(); };
+  $('#bQ').oninput = e => { f.q = e.target.value.trim(); reset(); };
+  $('#bMethod').onchange = e => { f.method = e.target.value; reset(); };
+  $('#bClear').onclick = () => { Object.assign(f, {q:'', method:'all', range:'all', custom:null}); renderBilling(); };
+  mountRange($('#bRange'), f, ['all','30d','90d','6m','custom'], reset);
+  draw();
+}
+function downloadInvoice(p){
+  const html = `<!doctype html><html><head><meta charset="utf-8"><title>${p.ref}</title>
+<style>body{font-family:Inter,Arial,sans-serif;color:#111;max-width:640px;margin:40px auto;padding:0 20px}h1{font-size:20px;margin:0}.muted{color:#71717a}
+table{width:100%;border-collapse:collapse;margin-top:24px}td{padding:10px 0;border-bottom:1px solid #e5e7eb}td:last-child{text-align:right}.total td{font-weight:700;border:0;font-size:16px}</style></head>
+<body><h1>CentGo — Payment receipt</h1><p class="muted">${p.ref} · Paid on ${dateFmt(p.date)}</p>
+<p><b>${esc(ME.name)}</b><br>${esc(ME.email)}</p>
+<table><tr><td>${esc(p.desc)}<br><span class="muted">Earnings period ${p.period}</span></td><td>${money(p.amount)}</td></tr>
+<tr><td>Payment method</td><td>${esc(p.method)} ${esc(p.account)}</td></tr><tr class="total"><td>Total paid</td><td>${money(p.amount)}</td></tr></table></body></html>`;
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([html], {type:'text/html'}));
+  a.download = `receipt-${p.ref}.html`; a.click(); toast(`Receipt ${p.ref} downloaded`);
+}
+
+/* ============ profile ============ */
+function renderProfile(){
+  const row = (k, v, raw) => `<dt>${k}</dt><dd>${v ? (raw ? v : esc(v)) : '<span class="muted">—</span>'}</dd>`;
+  $('#page').innerHTML = `
+    <div class="prof-cover"></div>
+    <div class="card prof-card">
+      <div class="prof-top">
+        <div class="prof-avatar">${initials(ME.name)}</div>
+        <div class="prof-id"><h1>${esc(ME.name)}</h1><span>Affiliate</span></div>
+        <button class="btn primary" id="pEdit">${icon('edit')}Edit</button>
+      </div>
+      <div class="prof-grid">
+        <section><h2>Personal information</h2>
+          <dl class="dl">
+            ${row('Full name', ME.name)}${row('Mobile', ME.mobile)}${row('Email', ME.email)}${row('Country', ME.country)}
+            ${row('State / region', ME.state)}${row('City', ME.city)}${row('Street address', ME.address)}${row('Zip', ME.zip)}
+          </dl></section>
+        <section><h2>Account</h2>
+          <dl class="dl">
+            ${row('Website', ME.website ? `<a class="alink" href="${esc(ME.website)}" target="_blank" rel="noopener">${esc(ME.website)}</a>` : '', true)}
+            ${row('Payment method', ME.pay ? `<span class="paytag">${esc(ME.pay)}</span>` : '', true)}
+            ${row('Payout account', ME.payout)}
+            ${row('Team ID (Skype)', ME.skype)}
+            ${row('Telegram', ME.telegram ? `<a class="alink" href="https://t.me/${esc(ME.telegram.replace('@',''))}" target="_blank" rel="noopener">${esc(ME.telegram)}</a>` : '', true)}
+            ${row('Moderator', ME.manager)}
+            ${row('Registered', dtFmt(ME.registered))}
+            ${row('Account created', dtFmt(ME.joined))}
+          </dl></section>
+      </div>
+    </div>
+
+    <form class="card pw-card" id="pwForm" novalidate>
+      <div class="pw-head">
+        <div><h2><span class="hic" style="--h:var(--ink);--hs:#f2f2f3">${icon('shield')}</span>Password</h2>
+          <p>Use at least 8 characters with a number. You’ll stay signed in on this device.</p></div>
+        <button type="button" class="link-btn" id="forgotPw">Forgot password?</button>
+      </div>
+      <div class="form">
+        <label class="full">Current password<div class="pw-wrap"><input name="current" type="password" autocomplete="current-password"><button type="button" class="pw-eye" title="Show password">${icon('eye')}</button></div><span class="hint">Enter your current password</span></label>
+        <label>New password<div class="pw-wrap"><input name="next" type="password" autocomplete="new-password"><button type="button" class="pw-eye" title="Show password">${icon('eye')}</button></div>
+          <div class="pw-meter" id="pwMeter"><i></i><i></i><i></i><i></i></div><span class="hint">At least 8 characters, including a number</span></label>
+        <label>Confirm new password<div class="pw-wrap"><input name="confirm" type="password" autocomplete="new-password"><button type="button" class="pw-eye" title="Show password">${icon('eye')}</button></div><span class="hint">Passwords don’t match</span></label>
+      </div>
+      <div class="pw-foot"><span class="muted" id="pwChanged">${ME.pwChanged ? `Last changed ${ago(ME.pwChanged)}` : 'Password last changed 3 months ago'}</span><button class="btn primary" type="submit">Update password</button></div>
+    </form>`;
+  $('#pEdit').onclick = openProfileEdit;
+  bindPasswordCard();
+}
+
+function bindPasswordCard(){
+  const form = $('#pwForm'), f = form.elements;
+  // show / hide each password field
+  $$('.pw-eye', form).forEach(b => b.onclick = () => { const i = b.previousElementSibling; i.type = i.type==='password' ? 'text' : 'password'; b.classList.toggle('on', i.type==='text'); });
+  // simple strength meter: length, number, upper+lower, symbol
+  f.next.oninput = () => {
+    const p = f.next.value, score = !p ? 0 : [p.length>=8, /\d/.test(p), /[a-z]/.test(p) && /[A-Z]/.test(p), /[^A-Za-z0-9]/.test(p)].filter(Boolean).length;
+    $('#pwMeter').dataset.s = score;
+  };
+  const mark = (n, bad) => { form.elements[n].closest('label').classList.toggle('bad', !!bad); return !!bad; };
+  form.onsubmit = e => {
+    e.preventDefault();
+    const a = mark('current', !f.current.value), b = mark('next', f.next.value.length < 8 || !/\d/.test(f.next.value));
+    const c = mark('confirm', !b && f.next.value !== f.confirm.value);
+    if(!a && !b && f.next.value === f.current.value){ mark('next', true); $('.hint', f.next.closest('label')).textContent = 'New password must be different from the current one'; return; }
+    $('.hint', f.next.closest('label')).textContent = 'At least 8 characters, including a number';
+    if(a || b || c) return;
+    form.reset(); $('#pwMeter').dataset.s = 0; ME.pwChanged = new Date();
+    $('#pwChanged').textContent = 'Last changed just now';
+    toast('Password updated');
+  };
+  $('#forgotPw').onclick = openForgotPassword;
+}
+let resetCooldown = 0;
+function openForgotPassword(){
+  const wait = Math.ceil((resetCooldown - Date.now())/1000);
+  openModalForm({
+    title:'Reset your password', save: wait > 0 ? `Resend in ${wait}s` : 'Send reset link',
+    sub:'We’ll email you a link to set a new password. The link expires in 30 minutes.',
+    html:`<label class="full">Email<input name="email" value="${esc(ME.email)}" readonly></label>
+      <div class="full tipbox" style="margin:0">${icon('info')}<div><p style="margin:0">Didn’t get it? Check your spam folder, or contact support if the email address above is wrong.</p></div></div>`,
+    onSave:() => {
+      if(Date.now() < resetCooldown){ toast('Please wait a moment before requesting another link'); return false; }
+      resetCooldown = Date.now() + 60e3;
+      toast(`Reset link sent to ${ME.email}`);
+    },
+  });
+}
+function openProfileEdit(){
+  const v = k => esc(ME[k]), opt = (list, cur) => list.map(x => `<option ${cur===x?'selected':''}>${x}</option>`).join('');
+  openModalForm({
+    title:'Update profile', sub:'Email, moderator and dates are managed by your account manager.', save:'Update',
+    html:`
+      <div class="form-sec">Personal information</div>
+      <label>Full name<input name="name" value="${v('name')}"><span class="hint">Name is required</span></label>
+      <label>Mobile<input name="mobile" value="${v('mobile')}" placeholder="+880 …"></label>
+      <label>Country<select name="country">${opt([...new Set([ME.country, ...Object.values(COUNTRY_NAME)])], ME.country)}</select></label>
+      <label>State / region<input name="state" value="${v('state')}"></label>
+      <label>City<input name="city" value="${v('city')}"></label>
+      <label>Zip<input name="zip" value="${v('zip')}"></label>
+      <label class="full">Street address<input name="address" value="${v('address')}"></label>
+      <div class="form-sec">Account</div>
+      <label class="full">Website<input name="website" value="${v('website')}" placeholder="https://"><span class="hint">Enter a full URL starting with https://</span></label>
+      <label>Payment method<select name="pay">${opt(PAYS, ME.pay)}</select></label>
+      <label>Payout account<input name="payout" value="${v('payout')}" placeholder="Account no. / email / wallet"><span class="hint">Payout account is required</span></label>
+      <label>Team ID (Skype)<input name="skype" value="${v('skype')}" placeholder="live:username"></label>
+      <label>Telegram<input name="telegram" value="${v('telegram')}" placeholder="@username"></label>`,
+    onSave:(d, mark) => {
+      const a = mark('name', !d.name), b = mark('website', d.website && !/^https?:\/\/[^\s.]+\.[^\s]+$/.test(d.website)), c = mark('payout', !d.payout);
+      if(a || b || c) return false;
+      if(d.telegram && !d.telegram.startsWith('@')) d.telegram = '@' + d.telegram;
+      Object.assign(ME, d); renderChrome(); toast('Profile updated'); renderProfile();
+    },
+  });
+}
+
+/* ============ support (replaces the old refresh button) ============ */
+function openSupport(){
+  openModalForm({
+    title:'Support', sub:'We usually reply within a few hours.', cancel:'Close',
+    html:`<div class="full" style="display:grid;gap:10px">
+      <a class="sup-opt" href="https://t.me/" target="_blank" rel="noopener"><span class="ic">${icon('send')}</span><span>Chat on Telegram<small>Fastest way to reach the team</small></span></a>
+      <a class="sup-opt" href="mailto:support@centgo.example"><span class="ic">${icon('mail')}</span><span>Email support<small>support@centgo.example</small></span></a>
+      <div class="sup-opt"><span class="ic">${icon('user')}</span><span>Your account manager<small>${esc(ME.manager)}</small></span></div>
+    </div>`,
+  });
+}
+
+/* ============ chrome + routing ============ */
+const PAGES = {
+  dashboard:{title:'Dashboard', render:renderDashboard}, campaign:{title:'Campaign', render:renderCampaignRoute}, schedules:{title:'Schedules', render:renderSchedules},
+  links:{title:'My Links', render:renderLinks}, clicks:{title:'Clicks', render:() => reportPage('clicks')}, conversions:{title:'Conversion', render:() => reportPage('conv')},
+  billing:{title:'Billing', render:renderBilling}, profile:{title:'Profile', render:renderProfile},
+};
+const currentPage = () => { const p = location.hash.slice(1).split('/')[0]; return PAGES[p] ? p : 'dashboard'; };
+const rerender = () => PAGES[currentPage()].render();   // redraw in place (keeps scroll and open dialogs)
+function renderChrome(){
+  $('#sideFoot').innerHTML = `<div class="avatar">${initials(ME.name)}</div><div class="who"><b>${esc(ME.name)}</b><span>${esc(ME.email)}</span></div>
+    <button class="icon-btn" title="Log out" data-action="logout">${icon('logout')}</button>`;
+  $('#balChip').innerHTML = `${icon('wallet')}<span>Balance</span><b class="num">${money(balance().current)}</b>`;
+  $$('[data-action="logout"]').forEach(b => b.onclick = () => $('#logoutModal').classList.add('open'));
+  updateBadges();
+}
+function updateBadges(){ $('#linkBadge').textContent = MY_LINKS.length; }
+function go(){
+  const page = currentPage();
+  $$('.nav-item').forEach(a => a.classList.toggle('active', a.dataset.page===page));
+  const camp = page==='campaign' && campId() ? offerById(campId()) : null;
+  $('#crumbs').innerHTML = `<span>Affiliate</span><span>/</span>` + (camp ? `<a href="#campaign">Campaign</a><span>/</span><b>${esc(camp.title)}</b>` : `<b>${PAGES[page].title}</b>`);
+  document.title = `${camp ? camp.title : PAGES[page].title} · CentGo Affiliate`;
+  document.body.classList.remove('nav-open'); closeRangePicker(false);
+  $$('.modal-bg').forEach(m => m.classList.remove('open'));
+  PAGES[page].render();
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange', go);
+let rz, lastW = window.innerWidth;
+window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if(currentPage()==='dashboard' && Math.abs(window.innerWidth-lastW) > 40){ lastW = window.innerWidth; renderDashboard(); } }, 200); });
+
+$('#menuBtn').onclick = () => document.body.classList.add('nav-open');
+$('#scrim').onclick = () => document.body.classList.remove('nav-open');
+$('#supportBtn').onclick = openSupport;
+$$('.modal-bg').forEach(m => m.addEventListener('click', e => { if(e.target===m || e.target.closest('[data-close]')) m.classList.remove('open'); }));
+$('#confirmLogout').onclick = () => { location.href = 'index.html'; };
+document.addEventListener('keydown', e => { if(e.key==='Escape'){ closeRangePicker(true); $$('.modal-bg').forEach(m => m.classList.remove('open')); document.body.classList.remove('nav-open'); } });
+
+renderChrome();
+go();
+</script>
+</body>
+</html>
